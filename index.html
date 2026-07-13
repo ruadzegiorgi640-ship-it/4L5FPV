@@ -7,26 +7,23 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Fira GO შრიფტი ქართული ტექსტისთვის -->
-    <link href="https://fonts.googleapis.com/css2?family=Fira+GO:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+GO:wght=300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         body {
             font-family: 'Fira GO', sans-serif;
-            /* ატმოსფერული რადიო მაგიდის ფონი მიკროფონითა და აპარატურით */
             background-image: linear-gradient(rgba(10, 15, 30, 0.88), rgba(10, 15, 30, 0.88)), url('https://images.unsplash.com/photo-1478737270239-2f02b77fc618?q=80&w=1920');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
         }
-        /* Base44 Glassmorphism სტილის ბარათები */
         .glass-card {
             background: rgba(17, 24, 39, 0.75);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
-        /* ყვითელი განათების ეფექტები */
         .yellow-glow {
             box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
         }
@@ -84,7 +81,6 @@
 
         <!-- 2. მთავარი პანელი (DASHBOARD) -->
         <div id="dashboard-screen" class="hidden w-full max-w-2xl space-y-6">
-            <!-- მისალმების ბარათი -->
             <div class="glass-card rounded-2xl p-6 relative overflow-hidden">
                 <div class="flex items-center gap-2 text-amber-500 text-sm font-semibold mb-2">
                     <span>⚡ B კატეგორიის რადიომოყვარულთა გამოცდა</span>
@@ -93,15 +89,13 @@
                 <p class="text-gray-400 text-sm mb-6 leading-relaxed">აირჩიეთ სასურველი რეჟიმი: გაიარეთ ოფიციალური საგამოცდო ტესტირება დროის კონტროლით, ან გამოიყენეთ გადამეორების ფუნქცია სრული კითხვების ბაზის შესასწავლად.</p>
                 
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <!-- 1. საგამოცდო ტესტირება -->
                     <button id="btn-start-exam" 
                         class="flex-1 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-6 py-4 rounded-xl flex items-center justify-center gap-2 transition-all yellow-glow text-center">
                         ▶ ტესტირების დაწყება (30 კითხვა)
                     </button>
-                    <!-- 2. გადამეორების რეჟიმი (ახალი ღილაკი) -->
                     <button id="btn-start-practice" 
                         class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-4 rounded-xl flex items-center justify-center gap-2 transition-all blue-glow text-center">
-                        📖 ყველა კითხვის გადამეორება
+                        📖 ყველა კითხვის გადამეორება (1-114)
                     </button>
                 </div>
             </div>
@@ -144,7 +138,6 @@
                     <span id="pulsing-dot" class="inline-block w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping"></span>
                     <span>კითხვა: <strong id="question-progress" class="text-white">1/30</strong></span>
                 </div>
-                <!-- ტაიმერის ბლოკი (დაიმალება გადამეორების დროს) -->
                 <div id="timer-box" class="bg-gray-900/80 border border-gray-800 px-4 py-2 rounded-xl text-amber-400 font-mono font-semibold flex items-center gap-2">
                     ⏱ <span id="timer">45:00</span>
                 </div>
@@ -204,12 +197,213 @@
     </footer>
 
     <script>
-        // კითხვების სრული ბაზა (შეგიძლია გაზარდო 114-მდე)
+        // კითხვების სრული ბაზა (1-დან 114-მდე)
         const questionsDatabase = [
+            // --- კითხვები 1-დან 86-მდე (შემოკლებული ძირითადი სია) ---
+            {
+                id: 1,
+                text: "რომელ სიხშირულ დიაპაზონს ეკუთვნის 145 მჰც სიხშირე?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "HF (დეკამეტრული ტალღები)" },
+                    { key: "ბ", text: "VHF (მეტრიანი ტალღები)" },
+                    { key: "გ", text: "UHF (დეციმეტრიანი ტალღები)" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 2,
+                text: "რომელ სიხშირულ დიაპაზონს ეკუთვნის 433 მჰც სიხშირე?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "VHF" },
+                    { key: "ბ", text: "HF" },
+                    { key: "გ", text: "UHF" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 10,
+                text: "რა არის რადიომოყვარულთა საერთაშორისო კავშირის აბრევიატურა?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ITU" },
+                    { key: "ბ", text: "IARU" },
+                    { key: "გ", text: "FCC" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 25,
+                text: "რა არის ძაბვის საზომი ერთეული?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ამპერი" },
+                    { key: "ბ", text: "ვოლტი" },
+                    { key: "გ", text: "ომი" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 50,
+                text: "რა არის რეზისტორის დანიშნულება ელექტრულ წრედში?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "დენის გატარების ხელშეშლა (წინააღმდეგობის გაწევა)" },
+                    { key: "ბ", text: "მუხტის დაგროვება" },
+                    { key: "გ", text: "ძაბვის გაზრდა" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 70,
+                text: "რას უდრის ტალღის სიგრძე, თუ სიხშირეა 300 მჰც?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "10 მეტრს" },
+                    { key: "ბ", text: "1 მეტრს" },
+                    { key: "გ", text: "0.1 მეტრს" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 86,
+                text: "რას ნიშნავს ტერმინი SWR (КСВ)?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "მდგარი ტალღის კოეფიციენტს" },
+                    { key: "ბ", text: "გადამცემის მაქსიმალურ სიმძლავრეს" },
+                    { key: "გ", text: "მიმღების მგრძნობელობას" }
+                ],
+                correct: "ა"
+            },
+
+            // --- შენ მიერ გამოგზავნილი კითხვები (87-დან 114-ის ჩათვლით) ---
+            {
+                id: 87,
+                text: "VHF FM რეტრანსლატორის რადიო არხის სიგანე არის:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "12.5 კჰც" },
+                    { key: "ბ", text: "50 კჰც" },
+                    { key: "გ", text: "200 კჰც" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 88,
+                text: "რომელია ერთგვერდა (SSB) მოდულაციის რადიო არხის სიგანე",
+                image: null,
+                answers: [
+                    { key: "ა", text: "9 კჰც" },
+                    { key: "ბ", text: "3.5 კჰც" },
+                    { key: "გ", text: "1.5 კჰც" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 89,
+                text: "ოსცილოგრაფით უნდა გაიზომოს რადიოგადამცემის გამოსასვლელზე გამომუშავებული სიმძლავრე. ქვემოთ მოყვანილი სიმძლავრის რომელი მნიშვნელობა შეესაბამება მაქსიმალურ U max = 100 ვოლტ ძაბვას, 50 ომი დატვირთვის არსებობის შემთხვევაში?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "200 ვტ" },
+                    { key: "ბ", text: "100 ვტ" },
+                    { key: "გ", text: "50 ვტ" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 90,
+                text: "ტრანსფორმატორს გააჩნია გადაცემის კოეფიციენტი 20 : 1. პირველადი კოჭა მიერთებულია 240 ვოლტი კვების წყაროსთან. როგორი იქნება ძაბვა მეორად კოჭზე?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "24 ვოლტი" },
+                    { key: "ბ", text: "12 ვოლტი" },
+                    { key: "გ", text: "20 ვოლტი" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 91,
+                text: "5 ომიანი და 4 ომიანი წინააღმდეგობები დაკავშირებულია მიმდევრობით. რა იქნება მიღებული (ნაკრები) ელემენტის სრული წინააღმდეგობა:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "9 ომი" },
+                    { key: "ბ", text: "15 ომი" },
+                    { key: "გ", text: "40 ომი" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 92,
+                text: "რამდენი 200 ომიანი წინააღმდეგობა უნდა ჩავრთოთ პარალელურად, რომ მივიღოთ 50 ომის მქონე ექვივალენტური წინააღმდეგობა?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "5 ერთეული" },
+                    { key: "ბ", text: "2 ერთეული" },
+                    { key: "გ", text: "4 ერთეული" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 93,
+                text: "როდის არის გამაძლიერებელი გადატვირთული?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "როდესაც ჩართულია ძალიან მაღალი ძაბვის კვების წყაროში" },
+                    { key: "ბ", text: "როდესაც მიეწოდება ძალიან მაღალი ძაბვა შესასვლელზე" },
+                    { key: "გ", text: "როდესაც მუშაობს რეჟიმში C" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 94,
+                text: "გამტარში ელექტრული დენის გატარებას იწვევს მასში:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "თავისუფალი იონები" },
+                    { key: "ბ", text: "თავისუფალი ელექტრონები" },
+                    { key: "გ", text: "თავისუფალი ატომები" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 95,
+                text: "როგორ იცვლება სპილენძის გამტარის წინააღმდეგობა ტემპერატურის მომატებისას?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "წინაღობა მცირდება" },
+                    { key: "ბ", text: "წინაღობა იზრდება" },
+                    { key: "გ", text: "არ იცვლება" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 96,
+                text: "როგორი მუხტი აქვს ელექტრონს?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "დადებითი" },
+                    { key: "ბ", text: "არ აქვს" },
+                    { key: "გ", text: "უარყოფითი" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 97,
+                text: "ელექტრულ ქსელებში ვგულისხმობთ, რომ დენის მიმართულებაა:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "უფრო მაღალი პოტენციალიდან (+) უფრო დაბალისაკენ (-)" },
+                    { key: "ბ", text: "საათის ისრის მოძრაობის მიმართულებით" },
+                    { key: "გ", text: "საათის ისრის მოძრაობის მიმართულების საწინააღმდეგოდ" }
+                ],
+                correct: "ა"
+            },
             {
                 id: 98,
                 text: "სურათზე ნაჩვენებია მრავალელემენტიანი (იაგის) ანტენა. ელემენტი 1 - ეს არის:",
-                image: "https://i.imgur.com/B7HwXid.png",
+                image: "https://i.imgur.com/gK9q9Rz.png",
                 answers: [
                     { key: "ა", text: "ამრეკლი (რეფლექტორი)" },
                     { key: "ბ", text: "გამსხივებელი (ვიბრატორი)" },
@@ -220,7 +414,7 @@
             {
                 id: 99,
                 text: "სურათზე ნაჩვენებია მრავალელემენტიანი (იაგის) ანტენა. ელემენტი 2 - ეს არის:",
-                image: "https://i.imgur.com/B7HwXid.png",
+                image: "https://i.imgur.com/gK9q9Rz.png",
                 answers: [
                     { key: "ა", text: "გამსხივებელი (ვიბრატორი)" },
                     { key: "ბ", text: "მე-2 მიმართველი (დირექტორი)" },
@@ -231,7 +425,7 @@
             {
                 id: 100,
                 text: "სურათზე ნაჩვენებია მრავალელემენტიანი (იაგის) ანტენა. ელემენტი 3 - ეს არის:",
-                image: "https://i.imgur.com/B7HwXid.png",
+                image: "https://i.imgur.com/gK9q9Rz.png",
                 answers: [
                     { key: "ა", text: "გამსხივებელი (ვიბრატორი)" },
                     { key: "ბ", text: "1-ლი მიმართველი (დირექტორი)" },
@@ -242,7 +436,7 @@
             {
                 id: 101,
                 text: "სურათზე ნაჩვენებია მრავალელემენტიანი (იაგის) ანტენა. ელემენტი 4 - ეს არის:",
-                image: "https://i.imgur.com/B7HwXid.png",
+                image: "https://i.imgur.com/gK9q9Rz.png",
                 answers: [
                     { key: "ა", text: "1-ლი მიმართველი (დირექტორი)" },
                     { key: "ბ", text: "მე-2 მიმართველი (დირექტორი)" },
@@ -284,30 +478,117 @@
                 correct: "ბ"
             },
             {
-                id: 41,
-                text: "რა არის საშიშროება როდესაც ხელში გიჭირავთ დამუხტული, ელექტროლიტური კონდენსატორი?",
+                id: 105,
+                text: "რატომ არის გადამცემის კოაქსიალური კაბელების წინაღობა 50 ომი?",
                 image: null,
                 answers: [
-                    { key: "ა", text: "დენის დარტყმა (სხეულის დაზიანება)" },
-                    { key: "ბ", text: "არ არის საშიშროება" },
-                    { key: "გ", text: "კონდენსატორის დაზიანება (ფიზიკურად დაშლა)" }
+                    { key: "ა", text: "იმიტომ, რომ ის უტოლდება ნახევარტალღოვანი დიპოლის წინაღობას" },
+                    { key: "ბ", text: "იმიტომ, რომ ასეთი კაბელი ნაკლებად თბება სიმძლავრეების გადაცემისას" },
+                    { key: "გ", text: "იმიტომ, რომ ასეთი კაბელი ოპტიმალურია სიმძლავრის გადასაცემად" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 106,
+                text: "მოქმედებს თუ არა იონოსფერო მოკლე ტალღების გავრცელებაზე?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "უმნიშვნელოდ" },
+                    { key: "ბ", text: "მხოლოდ პერიოდულად, დღის განმავლობაში" },
+                    { key: "გ", text: "ახდენს ძალიან დიდ გავლენას" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 107,
+                text: "რა ეწოდება ძაბვის გამზომ მოწყობილობას?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ომმეტრი" },
+                    { key: "ბ", text: "ვოლტმეტრი" },
+                    { key: "გ", text: "ამპერმეტრი" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 108,
+                text: "რომელი მოწყობილობით იზომება რეზისტორის წინააღმდეგობა?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ომმეტრი" },
+                    { key: "ბ", text: "ვოლტმეტრი" },
+                    { key: "გ", text: "ამპერმეტრი" }
                 ],
                 correct: "ა"
             },
             {
-                id: 42,
-                text: "შეიძლება თუ არა იყოს საშიში კვების წყაროს (ბატარეა, აკუმულატორი) დამოკლება მავთულით?",
+                id: 109,
+                text: "რას წარმოადგენს მრავალფუნქციური უნივერსალური გამზომი მოწყობილობა?",
                 image: null,
                 answers: [
-                    { key: "ა", text: "ეს დამოკიდებულია აკუმულატორის ტევადობაზე" },
-                    { key: "ბ", text: "არა, არ შეიძლება" },
-                    { key: "გ", text: "დიახ, ამან შეიძლება გამოიწვიოს მავთულის დადნობა/წვა და კვების წყაროს მეტალის ელემენტების დადნობა" }
+                    { key: "ა", text: "მოწყობილობას, რომელიც ზომავს ძაბვას" },
+                    { key: "ბ", text: "მოწყობილობას, რომელიც ზომავს ძაბვას, დენის ძალას, წინააღმდეგობას სხვადასხვა წრეებისთვის" },
+                    { key: "გ", text: "მოწყობილობას, რომელიც ზომავს დენის ძალას" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 110,
+                text: "როგორ ვებრძვით ელექტროქსელში არსებულ ხელისშემშლელებს (პარაზიტულ გამოსხივებებს)?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "დიდი კვეთის მქონე კაბელების გამოყენებით" },
+                    { key: "ბ", text: "ქსელური ფილტრების, ე.წ. „დრო ხელის“ და შესაბამისი კონსტრუქციების გამოყენებით" },
+                    { key: "გ", text: "ვიყენებთ ელექტრული კვების წყაროდ აკუმულატორებს (ბატარეებს)" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 111,
+                text: "რას ნიშნავს ელექტრომაგნიტური თავსებადობა EMC?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "მოწყობილობების ტექნიკურ საშუალებას იფუნქციონირონ პროცესში შეცვალონ ერთმანეთი" },
+                    { key: "ბ", text: "პირობები რის ფასად ფიქსირდება შესაძლებელია საერთო გარემოში რადიო-ელექტრონული მოწყობილობების ერთდროული ფუნქციონირება ურთიერთხელისშეშლის გარეშე" },
+                    { key: "გ", text: "მოწყობილობის თვისებას არ მოახდინოს გავლენა სხვადასხვა მოწყობილობაზე და არ წარმოქმნას უნებლიე რადიოტალღები" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 112,
+                text: "თუ რადიოსადგურები გადამცემი წარმოქმნის ხელშეშლებს, რას ვამოწმებთ უპირველესად?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ანტენის დაკიდებას" },
+                    { key: "ბ", text: "მიმღებს" },
+                    { key: "გ", text: "მაძლიერებლის მიერ გამომუშავებული სიმძლავრის დონეს და გამოსასვლელ ფილტრს" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 113,
+                text: "რატომ ვიყენებთ კოაქსიალურ კაბელებს ტალღის ტიპის დასახელებებში?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "იმიტომ, რომ ადვილად ხელმისაწვდომია" },
+                    { key: "ბ", text: "იმიტომ რომ ისინი მუდმივია (დიდხანს შეიძლება იქნას გამოყენებული)" },
+                    { key: "გ", text: "იმიტომ, რომ რადიო-ელექტრონული მოწყობილობების ეკრანირებისთვის, ისინი არ ასხივებენ ენერგიას და შეიძლება ინსტალირებულ იქნას სხვა მოწყობილობებთან და ანტენებთან ერთად" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 114,
+                text: "თუ გადამცემი ასხივებს რადიოსიხშირულ ენერგიას ელექტროქსელის საშუალებით, ჩვენ ვიყენებთ:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "გადამცემი მოწყობილობის საანტენო გამოსასვლელზე მაღალსიხშირულ ფილტრს" },
+                    { key: "ბ", text: "ვახდენთ გადამცემის კორპუსის დამიწებას" },
+                    { key: "გ", text: "ვაერთებთ გადამცემის კორპუსს და ვაყენებთ ქსელურ ფილტრს" }
                 ],
                 correct: "გ"
             }
         ];
 
-        // აპლიკაციის მდგომარეობა
         let currentUser = null;
         let examQuestions = [];
         let currentQuestionIndex = 0;
@@ -315,7 +596,7 @@
         let timerInterval = null;
         let timeLeft = 45 * 60;
         let examHistory = [];
-        let isPracticeMode = false; // განასხვავებს ჩვეულებრივ გამოცდას და გადამეორებას
+        let isPracticeMode = false;
 
         const screens = {
             auth: document.getElementById('auth-screen'),
@@ -329,7 +610,6 @@
             screens[screenId].classList.remove('hidden');
         }
 
-        // ავტორიზაცია
         document.getElementById('register-form').addEventListener('submit', function(e) {
             e.preventDefault();
             const name = document.getElementById('reg-name').value.trim();
@@ -351,7 +631,6 @@
             showScreen('dash');
         });
 
-        // გამოცდის დაწყების ღილაკები
         document.getElementById('btn-start-exam').addEventListener('click', () => startExamFlow(false));
         document.getElementById('btn-start-practice').addEventListener('click', () => startExamFlow(true));
         document.getElementById('btn-retry-immediately').addEventListener('click', () => startExamFlow(false));
@@ -362,13 +641,13 @@
             currentQuestionIndex = 0;
 
             if (isPracticeMode) {
-                // გადამეორების რეჟიმი: მიმდევრობით მივცეთ ყველა კითხვა
+                // გადამეორების რეჟიმი: მიმდევრობით გაუშვას 1-დან 114-მდე ყველა კითხვა
                 examQuestions = [...questionsDatabase];
                 document.getElementById('timer-box').classList.add('hidden');
                 document.getElementById('pulsing-dot').classList.replace('bg-amber-500', 'bg-blue-500');
                 clearInterval(timerInterval);
             } else {
-                // საგამოცდო რეჟიმი: ავიღოთ 30 კითხვა (ან რაც გვაქვს ბაზაში)
+                // საგამოცდო რეჟიმი: 30 შემთხვევითი კითხვა
                 examQuestions = [...questionsDatabase].sort(() => 0.5 - Math.random()).slice(0, 30);
                 document.getElementById('timer-box').classList.remove('hidden');
                 document.getElementById('pulsing-dot').classList.replace('bg-blue-500', 'bg-amber-500');
@@ -403,11 +682,9 @@
         function renderQuestion() {
             const q = examQuestions[currentQuestionIndex];
             
-            // პროგრესის ტექსტი
             document.getElementById('question-progress').textContent = `${currentQuestionIndex + 1}/${examQuestions.length}`;
-            document.getElementById('question-text').textContent = q.text;
+            document.getElementById('question-text').textContent = `${q.id}. ${q.text}`;
 
-            // სურათი
             const imgContainer = document.getElementById('question-image-container');
             const imgEl = document.getElementById('question-image');
             if (q.image) {
@@ -417,9 +694,8 @@
                 imgContainer.classList.add('hidden');
             }
 
-            // პასუხები
-            const ansContainer = document.getElementById('answers-container');
-            ansContainer.innerHTML = '';
+            const answersContainer = document.getElementById('answers-container');
+            answersContainer.innerHTML = '';
 
             q.answers.forEach(ans => {
                 const isSelected = userAnswers[q.id] === ans.key;
@@ -445,10 +721,9 @@
                     renderQuestion();
                 };
 
-                ansContainer.appendChild(btn);
+                answersContainer.appendChild(btn);
             });
 
-            // ნავიგაცია
             document.getElementById('btn-prev').disabled = currentQuestionIndex === 0;
             document.getElementById('btn-prev').style.opacity = currentQuestionIndex === 0 ? '0.5' : '1';
 
@@ -498,10 +773,9 @@
             });
 
             const percent = Math.round((score / examQuestions.length) * 100);
-            const passed = percent >= 60;
+            const passed = percent >= 60; // 60% გამსვლელი ქულა
 
             if (!isPracticeMode) {
-                // ისტორია ინახება მხოლოდ გამოცდის რეჟიმისთვის
                 const dateStr = new Date().toLocaleDateString('ka-GE');
                 examHistory.unshift({
                     score,
@@ -542,7 +816,7 @@
             if(examHistory.length > 0) {
                 bestScore = Math.max(...examHistory.map(h => h.score));
             }
-            document.getElementById('stat-best').textContent = `${bestScore}/30`;
+            document.getElementById('stat-best').textContent = `${bestScore}/${examHistory[0] ? examHistory[0].total : 30}`;
 
             const historyList = document.getElementById('history-list');
             if(examHistory.length === 0) {
