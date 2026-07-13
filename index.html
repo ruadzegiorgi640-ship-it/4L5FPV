@@ -12,7 +12,8 @@
     <style>
         body {
             font-family: 'Fira GO', sans-serif;
-            background-image: linear-gradient(rgba(10, 15, 30, 0.88), rgba(10, 15, 30, 0.88)), url('https://images.unsplash.com/photo-1615141982883-c7ad0e690050?q=80&w=1920');
+            /* ატმოსფერული რადიო მაგიდის ფონი მიკროფონითა და აპარატურით */
+            background-image: linear-gradient(rgba(10, 15, 30, 0.88), rgba(10, 15, 30, 0.88)), url('https://images.unsplash.com/photo-1478737270239-2f02b77fc618?q=80&w=1920');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -25,9 +26,12 @@
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
-        /* რადიო ტალღების ანიმაცია ყვითელი აქცენტებისთვის */
+        /* ყვითელი განათების ეფექტები */
         .yellow-glow {
             box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+        }
+        .blue-glow {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
         }
     </style>
 </head>
@@ -57,7 +61,7 @@
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
                 </div>
                 <h2 class="text-2xl font-bold text-white">შექმენით ანგარიში</h2>
-                <p class="text-gray-400 text-sm mt-1">გაიარეთ ავტორიზაცია დასაწყებად</p>
+                <p class="text-gray-400 text-sm mt-1">გაიარეთ ავტორიზაცია ტესტის დასაწყებად</p>
             </div>
 
             <form id="register-form" class="space-y-5">
@@ -67,7 +71,7 @@
                         class="w-full bg-gray-900/60 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-amber-500 transition-colors">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-1.5">საგამოძახებო ნიშანი (სურვილისამებრ)</label>
+                    <label class="block text-sm font-medium text-gray-300 mb-1.5">საგამოძახებო ნიშანი</label>
                     <input type="text" id="reg-callsign" placeholder="მაგ., 4L5FPV" 
                         class="w-full bg-gray-900/60 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-amber-500 transition-colors">
                 </div>
@@ -82,18 +86,24 @@
         <div id="dashboard-screen" class="hidden w-full max-w-2xl space-y-6">
             <!-- მისალმების ბარათი -->
             <div class="glass-card rounded-2xl p-6 relative overflow-hidden">
-                <div class="absolute right-0 top-0 opacity-10 pointer-events-none transform translate-x-1/4 -translate-y-1/4">
-                    <svg class="w-64 h-64 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
-                </div>
                 <div class="flex items-center gap-2 text-amber-500 text-sm font-semibold mb-2">
                     <span>⚡ B კატეგორიის რადიომოყვარულთა გამოცდა</span>
                 </div>
                 <h1 class="text-2xl font-bold text-white mb-2">მოგესალმებით, <span id="dash-username">მომხმარებელო</span>!</h1>
-                <p class="text-gray-400 text-sm mb-6 leading-relaxed">მომზადდით გამოცდისთვის — 30 შემთხვევითი კითხვა, 45 წუთიანი ტაიმერი და დეტალური შედეგების გადახედვა.</p>
-                <button id="btn-start-exam" 
-                    class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-6 py-3.5 rounded-xl flex items-center gap-2 transition-all yellow-glow">
-                    ▶ ტესტირების დაწყება / გადამეორება
-                </button>
+                <p class="text-gray-400 text-sm mb-6 leading-relaxed">აირჩიეთ სასურველი რეჟიმი: გაიარეთ ოფიციალური საგამოცდო ტესტირება დროის კონტროლით, ან გამოიყენეთ გადამეორების ფუნქცია სრული კითხვების ბაზის შესასწავლად.</p>
+                
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <!-- 1. საგამოცდო ტესტირება -->
+                    <button id="btn-start-exam" 
+                        class="flex-1 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-6 py-4 rounded-xl flex items-center justify-center gap-2 transition-all yellow-glow text-center">
+                        ▶ ტესტირების დაწყება (30 კითხვა)
+                    </button>
+                    <!-- 2. გადამეორების რეჟიმი (ახალი ღილაკი) -->
+                    <button id="btn-start-practice" 
+                        class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-4 rounded-xl flex items-center justify-center gap-2 transition-all blue-glow text-center">
+                        📖 ყველა კითხვის გადამეორება
+                    </button>
+                </div>
             </div>
 
             <!-- სტატისტიკის გრიდი -->
@@ -129,35 +139,30 @@
 
         <!-- 3. ტესტირების ეკრანი -->
         <div id="exam-screen" class="hidden w-full max-w-2xl space-y-6">
-            <!-- ტაიმერი და სტატუსი -->
             <div class="flex justify-between items-center px-2">
                 <div class="flex items-center gap-2 text-sm text-gray-400">
-                    <span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping"></span>
+                    <span id="pulsing-dot" class="inline-block w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping"></span>
                     <span>კითხვა: <strong id="question-progress" class="text-white">1/30</strong></span>
                 </div>
-                <div class="bg-gray-900/80 border border-gray-800 px-4 py-2 rounded-xl text-amber-400 font-mono font-semibold flex items-center gap-2">
+                <!-- ტაიმერის ბლოკი (დაიმალება გადამეორების დროს) -->
+                <div id="timer-box" class="bg-gray-900/80 border border-gray-800 px-4 py-2 rounded-xl text-amber-400 font-mono font-semibold flex items-center gap-2">
                     ⏱ <span id="timer">45:00</span>
                 </div>
             </div>
 
-            <!-- თავად ტესტის ბარათი -->
             <div class="glass-card rounded-2xl p-6 shadow-2xl relative">
-                <!-- კითხვის ტექსტი -->
                 <h2 id="question-text" class="text-lg font-semibold text-white mb-6 leading-relaxed">
                     იტვირთება კითხვა...
                 </h2>
 
-                <!-- სურათის ბლოკი (გამოჩნდება მხოლოდ იმ კითხვებზე, რომლებსაც სურათი აქვთ) -->
                 <div id="question-image-container" class="hidden mb-6 bg-slate-900/60 p-4 rounded-xl border border-gray-800 text-center">
                     <img id="question-image" src="" alt="საკითხავი სურათი" class="mx-auto rounded-lg max-h-56 object-contain">
                 </div>
 
-                <!-- პასუხების ვარიანტები -->
                 <div id="answers-container" class="space-y-3">
-                    <!-- აქ დინამიურად ჩაიწერება პასუხები -->
+                    <!-- პასუხები -->
                 </div>
 
-                <!-- ნავიგაციის ღილაკები -->
                 <div class="flex justify-between items-center mt-8 pt-4 border-t border-gray-800">
                     <button id="btn-prev" class="px-5 py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl transition-colors font-medium">
                         წინა
@@ -170,16 +175,14 @@
 
             <div class="text-center">
                 <button id="btn-finish-now" class="text-red-400 hover:text-red-300 text-sm font-medium transition-colors">
-                    🚩 ტესტის ნაადრევად დასრულება
+                    🚩 ტესტის დასრულება და პანელზე დაბრუნება
                 </button>
             </div>
         </div>
 
         <!-- 4. შედეგების ეკრანი -->
         <div id="result-screen" class="hidden w-full max-w-md glass-card rounded-2xl p-8 text-center shadow-2xl">
-            <div id="result-icon" class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <!-- დინამიური სურათი/აიქონი -->
-            </div>
+            <div id="result-icon" class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"></div>
             <h2 id="result-title" class="text-2xl font-bold text-white mb-2">ტესტი დასრულდა!</h2>
             <p id="result-score" class="text-4xl font-black text-amber-400 mb-2">18 / 30</p>
             <p id="result-status" class="text-lg font-semibold mb-6">ჩაიჭრა</p>
@@ -189,36 +192,110 @@
                     მთავარ გვერდზე დაბრუნება
                 </button>
                 <button id="btn-retry-immediately" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3.5 rounded-xl transition-colors yellow-glow">
-                    🔄 თავიდან ცდა (გადამეორება)
+                    🔄 თავიდან ცდა (გამოცდა)
                 </button>
             </div>
         </div>
 
     </main>
 
-    <!-- ქვედა კოლონტიტული (Footer) -->
     <footer class="w-full text-center py-4 text-xs text-gray-600 border-t border-gray-900 bg-slate-950/40">
         აპლიკაცია აწყობილია 4L5FPV-ის მიერ | © 2026 Radio Exam Prep
     </footer>
 
-    <!-- სკრიპტების ლოგიკა -->
     <script>
-        // კითხვების ბაზა (თქვენს სქრინებზე არსებული კითხვები)
+        // კითხვების სრული ბაზა (შეგიძლია გაზარდო 114-მდე)
         const questionsDatabase = [
             {
-                id: 1,
+                id: 98,
                 text: "სურათზე ნაჩვენებია მრავალელემენტიანი (იაგის) ანტენა. ელემენტი 1 - ეს არის:",
-                // რეალური იაგის ანტენის სქემატური ნახაზი მარტივი გაგებისთვის
-                image: "https://i.imgur.com/B7HwXid.png", 
+                image: "https://i.imgur.com/B7HwXid.png",
                 answers: [
                     { key: "ა", text: "ამრეკლი (რეფლექტორი)" },
                     { key: "ბ", text: "გამსხივებელი (ვიბრატორი)" },
                     { key: "გ", text: "1-ლი მიმართველი (დირექტორი)" }
                 ],
-                correct: "ა" // რეფლექტორი არის უკანა (ყველაზე გრძელი) ელემენტი, ე.ი. ნომერი 1
+                correct: "ა"
             },
             {
-                id: 2,
+                id: 99,
+                text: "სურათზე ნაჩვენებია მრავალელემენტიანი (იაგის) ანტენა. ელემენტი 2 - ეს არის:",
+                image: "https://i.imgur.com/B7HwXid.png",
+                answers: [
+                    { key: "ა", text: "გამსხივებელი (ვიბრატორი)" },
+                    { key: "ბ", text: "მე-2 მიმართველი (დირექტორი)" },
+                    { key: "გ", text: "ამრეკლი (რეფლექტორი)" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 100,
+                text: "სურათზე ნაჩვენებია მრავალელემენტიანი (იაგის) ანტენა. ელემენტი 3 - ეს არის:",
+                image: "https://i.imgur.com/B7HwXid.png",
+                answers: [
+                    { key: "ა", text: "გამსხივებელი (ვიბრატორი)" },
+                    { key: "ბ", text: "1-ლი მიმართველი (დირექტორი)" },
+                    { key: "გ", text: "ამრეკლი (რეფლექტორი)" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 101,
+                text: "სურათზე ნაჩვენებია მრავალელემენტიანი (იაგის) ანტენა. ელემენტი 4 - ეს არის:",
+                image: "https://i.imgur.com/B7HwXid.png",
+                answers: [
+                    { key: "ა", text: "1-ლი მიმართველი (დირექტორი)" },
+                    { key: "ბ", text: "მე-2 მიმართველი (დირექტორი)" },
+                    { key: "გ", text: "გამსხივებელი (ვიბრატორი)" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 102,
+                text: "1 კოჰმი წინაღობის დასაშვები ცდომილება შეადგენს 5%-ს. რა არის ამ წინაღობის ზღვრები?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "0,9-1,1 კოჰმი" },
+                    { key: "ბ", text: "0,98-1,02 კოჰმი" },
+                    { key: "გ", text: "950-1050 ომი" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 103,
+                text: "ძაბვის ვარდნა წინაღობაზე შეადგენს 100 ვოლტს 10 მილიამპერი დენის დროს. ქვემოთ მოცემული რა სიმძლავრე გამოიყოფა ამ შემთხვევაში?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "0,125 ვტ" },
+                    { key: "ბ", text: "1 ვტ" },
+                    { key: "გ", text: "0,5 ვტ" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 104,
+                text: "ორი 1 კოჰმი წინაღობის რეზისტორი შეერთებულია მიმდევრობით და მიერთებულია 200 ვოლტი ძაბვის წყაროსთან. რა იქნება ძაბვის ვარდნა თითოეულ რეზისტორზე?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "50 ვოლტი" },
+                    { key: "ბ", text: "100 ვოლტი" },
+                    { key: "გ", text: "200 ვოლტი" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 41,
+                text: "რა არის საშიშროება როდესაც ხელში გიჭირავთ დამუხტული, ელექტროლიტური კონდენსატორი?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "დენის დარტყმა (სხეულის დაზიანება)" },
+                    { key: "ბ", text: "არ არის საშიშროება" },
+                    { key: "გ", text: "კონდენსატორის დაზიანება (ფიზიკურად დაშლა)" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 42,
                 text: "შეიძლება თუ არა იყოს საშიში კვების წყაროს (ბატარეა, აკუმულატორი) დამოკლება მავთულით?",
                 image: null,
                 answers: [
@@ -227,30 +304,19 @@
                     { key: "გ", text: "დიახ, ამან შეიძლება გამოიწვიოს მავთულის დადნობა/წვა და კვების წყაროს მეტალის ელემენტების დადნობა" }
                 ],
                 correct: "გ"
-            },
-            {
-                id: 3,
-                text: "რა არის რადიომოყვარულთა ძირითადი დანიშნულება?",
-                image: null,
-                answers: [
-                    { key: "ა", text: "კომერციული მუსიკალური მაუწყებლობა" },
-                    { key: "ბ", text: "თვითგანათლება, კვლევა და ტექნიკური ურთიერთდახმარება" },
-                    { key: "გ", text: "სამხედრო და საიდუმლო შეტყობინებების გადაცემა" }
-                ],
-                correct: "ბ"
             }
         ];
 
-        // აპლიკაციის მდგომარეობა (State)
+        // აპლიკაციის მდგომარეობა
         let currentUser = null;
         let examQuestions = [];
         let currentQuestionIndex = 0;
-        let userAnswers = {}; // ინახავს არჩეულ პასუხებს { questionId: "ა" }
+        let userAnswers = {};
         let timerInterval = null;
-        let timeLeft = 45 * 60; // 45 წუთი
+        let timeLeft = 45 * 60;
         let examHistory = [];
+        let isPracticeMode = false; // განასხვავებს ჩვეულებრივ გამოცდას და გადამეორებას
 
-        // ელემენტების რეფერენსები
         const screens = {
             auth: document.getElementById('auth-screen'),
             dash: document.getElementById('dashboard-screen'),
@@ -258,13 +324,12 @@
             result: document.getElementById('result-screen')
         };
 
-        // ეკრანების გადამრთველი ფუნქცია
         function showScreen(screenId) {
             Object.values(screens).forEach(scr => scr.classList.add('hidden'));
             screens[screenId].classList.remove('hidden');
         }
 
-        // რეგისტრაციის დამუშავება
+        // ავტორიზაცია
         document.getElementById('register-form').addEventListener('submit', function(e) {
             e.preventDefault();
             const name = document.getElementById('reg-name').value.trim();
@@ -272,7 +337,6 @@
 
             currentUser = { name, callsign };
 
-            // ბეჯის განახლება ჰედერში
             document.getElementById('badge-name').textContent = name;
             if(callsign) {
                 document.getElementById('badge-callsign').textContent = callsign.toUpperCase();
@@ -281,31 +345,41 @@
                 document.getElementById('badge-callsign').classList.add('hidden');
             }
             document.getElementById('user-badge').classList.remove('hidden');
-
-            // პანელის განახლება
             document.getElementById('dash-username').textContent = name;
+            
             updateDashboardStats();
-
             showScreen('dash');
         });
 
-        // ტესტის დაწყება
-        document.getElementById('btn-start-exam').addEventListener('click', startExam);
-        document.getElementById('btn-retry-immediately').addEventListener('click', startExam);
+        // გამოცდის დაწყების ღილაკები
+        document.getElementById('btn-start-exam').addEventListener('click', () => startExamFlow(false));
+        document.getElementById('btn-start-practice').addEventListener('click', () => startExamFlow(true));
+        document.getElementById('btn-retry-immediately').addEventListener('click', () => startExamFlow(false));
 
-        function startExam() {
-            // მოვამზადოთ ტესტის კითხვები (შეგვიძლია ავურიოთ ან უბრალოდ წავიღოთ ბაზიდან)
-            examQuestions = [...questionsDatabase]; // თუ მეტი კითხვა იქნება, აქედან შემთხვევითობით აირჩევა
-            currentQuestionIndex = 0;
+        function startExamFlow(practiceMode) {
+            isPracticeMode = practiceMode;
             userAnswers = {};
-            timeLeft = 45 * 60; // 45 წუთი
+            currentQuestionIndex = 0;
+
+            if (isPracticeMode) {
+                // გადამეორების რეჟიმი: მიმდევრობით მივცეთ ყველა კითხვა
+                examQuestions = [...questionsDatabase];
+                document.getElementById('timer-box').classList.add('hidden');
+                document.getElementById('pulsing-dot').classList.replace('bg-amber-500', 'bg-blue-500');
+                clearInterval(timerInterval);
+            } else {
+                // საგამოცდო რეჟიმი: ავიღოთ 30 კითხვა (ან რაც გვაქვს ბაზაში)
+                examQuestions = [...questionsDatabase].sort(() => 0.5 - Math.random()).slice(0, 30);
+                document.getElementById('timer-box').classList.remove('hidden');
+                document.getElementById('pulsing-dot').classList.replace('bg-blue-500', 'bg-amber-500');
+                timeLeft = 45 * 60;
+                startTimer();
+            }
 
             renderQuestion();
-            startTimer();
             showScreen('exam');
         }
 
-        // ტაიმერის მუშაობა
         function startTimer() {
             clearInterval(timerInterval);
             updateTimerDisplay();
@@ -326,14 +400,11 @@
                 `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
 
-        // კითხვის რენდერი
         function renderQuestion() {
             const q = examQuestions[currentQuestionIndex];
             
-            // პროგრესი
+            // პროგრესის ტექსტი
             document.getElementById('question-progress').textContent = `${currentQuestionIndex + 1}/${examQuestions.length}`;
-            
-            // ტექსტი
             document.getElementById('question-text').textContent = q.text;
 
             // სურათი
@@ -356,42 +427,43 @@
                 const btn = document.createElement('button');
                 btn.className = `w-full text-left p-4 rounded-xl border transition-all flex items-center gap-3 ${
                     isSelected 
-                    ? 'bg-amber-500/20 border-amber-500 text-white font-medium yellow-glow' 
+                    ? (isPracticeMode ? 'bg-blue-500/20 border-blue-500 text-white font-medium blue-glow' : 'bg-amber-500/20 border-amber-500 text-white font-medium yellow-glow') 
                     : 'bg-gray-900/40 border-gray-800 hover:border-gray-700 text-gray-300'
                 }`;
 
                 btn.innerHTML = `
                     <span class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
-                        isSelected ? 'bg-amber-500 text-slate-950' : 'bg-gray-800 text-gray-400'
+                        isSelected 
+                        ? (isPracticeMode ? 'bg-blue-500 text-white' : 'bg-amber-500 text-slate-950') 
+                        : 'bg-gray-800 text-gray-400'
                     }">${ans.key}</span>
                     <span class="text-sm md:text-base">${ans.text}</span>
                 `;
 
                 btn.onclick = () => {
                     userAnswers[q.id] = ans.key;
-                    renderQuestion(); // განახლება მონიშვნის საჩვენებლად
+                    renderQuestion();
                 };
 
                 ansContainer.appendChild(btn);
             });
 
-            // წინა/შემდეგი ღილაკების მართვა
+            // ნავიგაცია
             document.getElementById('btn-prev').disabled = currentQuestionIndex === 0;
             document.getElementById('btn-prev').style.opacity = currentQuestionIndex === 0 ? '0.5' : '1';
 
             const nextBtn = document.getElementById('btn-next');
             if (currentQuestionIndex === examQuestions.length - 1) {
-                nextBtn.innerHTML = '🏁 დასრულება';
-                nextBtn.classList.replace('bg-amber-500', 'bg-emerald-500');
-                nextBtn.classList.replace('hover:bg-amber-600', 'hover:bg-emerald-600');
+                nextBtn.innerHTML = isPracticeMode ? '🏁 დასრულება' : '🏁 გამოცდის დასრულება';
+                nextBtn.className = "px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold rounded-xl transition-colors";
             } else {
                 nextBtn.innerHTML = 'შემდეგი ➔';
-                nextBtn.classList.add('bg-amber-500');
-                nextBtn.classList.remove('bg-emerald-500');
+                nextBtn.className = isPracticeMode 
+                    ? "px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition-colors"
+                    : "px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl transition-colors";
             }
         }
 
-        // ნავიგაცია კითხვებზე
         document.getElementById('btn-prev').addEventListener('click', () => {
             if (currentQuestionIndex > 0) {
                 currentQuestionIndex--;
@@ -409,16 +481,15 @@
         });
 
         document.getElementById('btn-finish-now').addEventListener('click', () => {
-            if(confirm("ნამდვილად გსურთ ტესტის ნაადრევად დასრულება?")) {
-                finishExam();
+            if(confirm("დავასრულოთ და დავბრუნდეთ პანელზე?")) {
+                clearInterval(timerInterval);
+                showScreen('dash');
             }
         });
 
-        // გამოცდის დასრულება
         function finishExam() {
             clearInterval(timerInterval);
             
-            // ქულების დათვლა
             let score = 0;
             examQuestions.forEach(q => {
                 if (userAnswers[q.id] === q.correct) {
@@ -427,45 +498,43 @@
             });
 
             const percent = Math.round((score / examQuestions.length) * 100);
-            const passed = percent >= 60; // 60% მაინც ჩასაბარებლად
+            const passed = percent >= 60;
 
-            // ისტორიაში დამატება
-            const dateStr = new Date().toLocaleDateString('ka-GE');
-            examHistory.unshift({
-                score,
-                total: examQuestions.length,
-                date: dateStr,
-                passed
-            });
+            if (!isPracticeMode) {
+                // ისტორია ინახება მხოლოდ გამოცდის რეჟიმისთვის
+                const dateStr = new Date().toLocaleDateString('ka-GE');
+                examHistory.unshift({
+                    score,
+                    total: examQuestions.length,
+                    date: dateStr,
+                    passed
+                });
+            }
 
-            // შედეგების ეკრანის განახლება
             const iconBox = document.getElementById('result-icon');
             const statusText = document.getElementById('result-status');
             
             if (passed) {
                 iconBox.className = "w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
                 iconBox.innerHTML = '🏆';
-                statusText.textContent = "გილოცავთ! ჩააბარეთ 🎉";
+                statusText.textContent = "ტესტირება წარმატებით გაიარეთ! 🎉";
                 statusText.className = "text-lg font-semibold text-emerald-400 mb-6";
             } else {
                 iconBox.className = "w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 bg-red-500/20 text-red-400 border border-red-500/30";
                 iconBox.innerHTML = '❌';
-                statusText.textContent = "სამწუხაროდ, ვერ ჩააბარეთ. სცადეთ ხელახლა!";
+                statusText.textContent = "სამწუხაროდ, ზღვარი ვერ გადალახეთ.";
                 statusText.className = "text-lg font-semibold text-red-400 mb-6";
             }
 
             document.getElementById('result-score').textContent = `${score} / ${examQuestions.length}`;
-            
             showScreen('result');
         }
 
-        // მთავარ პანელზე დაბრუნება
         document.getElementById('btn-back-to-dash').addEventListener('click', () => {
             updateDashboardStats();
             showScreen('dash');
         });
 
-        // პანელის სტატისტიკის განახლება
         function updateDashboardStats() {
             document.getElementById('stat-count').textContent = examHistory.length;
             
@@ -475,7 +544,6 @@
             }
             document.getElementById('stat-best').textContent = `${bestScore}/30`;
 
-            // ისტორიის სიის აწყობა
             const historyList = document.getElementById('history-list');
             if(examHistory.length === 0) {
                 historyList.innerHTML = `<p class="text-gray-500 text-sm">ისტორია ცარიელია. გაიარეთ პირველი ტესტი!</p>`;
