@@ -3,282 +3,1037 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B კატეგორიის რადიომოყვარულთა გამოცდა</title>
+    <title>B კატეგორიის საგამოცდო ბაზა (1-114)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Fira GO შრიფტი ქართული ტექსტისთვის -->
     <link href="https://fonts.googleapis.com/css2?family=Fira+GO:wght=300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <style>
         body {
             font-family: 'Fira GO', sans-serif;
-            background-image: linear-gradient(rgba(10, 15, 30, 0.88), rgba(10, 15, 30, 0.88)), url('https://images.unsplash.com/photo-1478737270239-2f02b77fc618?q=80&w=1920');
+            background-image: linear-gradient(rgba(10, 15, 30, 0.92), rgba(10, 15, 30, 0.92)), url('https://images.unsplash.com/photo-1478737270239-2f02b77fc618?q=80&w=1920');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
         }
         .glass-card {
-            background: rgba(17, 24, 39, 0.75);
+            background: rgba(17, 24, 39, 0.7);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
-        .yellow-glow {
-            box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+        .green-glow {
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);
         }
-        .blue-glow {
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+        /* მცოცავი ღილაკი ზემოთ ასასვლელად */
+        #back-to-top {
+            transition: all 0.3s ease;
         }
     </style>
 </head>
 <body class="text-gray-200 min-h-screen flex flex-col justify-between">
 
-    <!-- ზედა პანელი (Header) -->
-    <header class="w-full max-w-4xl mx-auto px-4 py-4 flex justify-between items-center border-b border-gray-800">
-        <div class="flex items-center gap-2">
-            <div class="bg-amber-500 text-slate-950 p-2 rounded-lg font-bold yellow-glow">
-                📻
+    <!-- ზედა პანელი -->
+    <header class="sticky top-0 z-50 w-full glass-card border-b border-gray-800/80 px-4 py-4">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-emerald-500 text-slate-950 p-2 rounded-xl font-bold shadow-lg shadow-emerald-500/20">
+                    📻
+                </div>
+                <div>
+                    <span class="font-bold text-lg text-emerald-400 block">4L5FPV Exam Portal</span>
+                    <span class="text-xs text-gray-400">B კატეგორიის სრული სასწავლო ბაზა (1 - 114)</span>
+                </div>
             </div>
-            <span class="font-bold text-lg text-amber-500">4L5FPV Exam Portal</span>
-        </div>
-        <div id="user-badge" class="hidden text-sm text-gray-400 flex items-center gap-2">
-            <span id="badge-name" class="font-medium text-white"></span>
-            <span id="badge-callsign" class="bg-gray-800 text-amber-400 px-2 py-0.5 rounded text-xs"></span>
+
+            <!-- ძებნის ფუნქცია რეალურ დროში -->
+            <div class="w-full md:w-80 relative">
+                <input type="text" id="search-input" placeholder="🔍 ჩაწერეთ საძიებო სიტყვა ან ნომერი..."
+                    class="w-full bg-gray-900/90 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all">
+            </div>
         </div>
     </header>
 
     <!-- მთავარი კონტეინერი -->
-    <main class="flex-grow flex items-center justify-center px-4 py-8">
-        
-        <!-- 1. რეგისტრაციის გვერდი -->
-        <div id="auth-screen" class="glass-card w-full max-w-md rounded-2xl p-8 shadow-2xl">
-            <div class="text-center mb-8">
-                <div class="bg-amber-500/10 text-amber-400 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-amber-500/20">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
-                </div>
-                <h2 class="text-2xl font-bold text-white">შექმენით ანგარიში</h2>
-                <p class="text-gray-400 text-sm mt-1">გაიარეთ ავტორიზაცია ტესტის დასაწყებად</p>
-            </div>
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-8">
 
-            <form id="register-form" class="space-y-5">
-                <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-1.5">სახელი და გვარი</label>
-                    <input type="text" id="reg-name" required placeholder="მაგ., გიორგი გიორგაძე" 
-                        class="w-full bg-gray-900/60 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-amber-500 transition-colors">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-1.5">საგამოძახებო ნიშანი</label>
-                    <input type="text" id="reg-callsign" placeholder="მაგ., 4L5FPV" 
-                        class="w-full bg-gray-900/60 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-amber-500 transition-colors">
-                </div>
-                <button type="submit" 
-                    class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-semibold py-3.5 rounded-xl transition-all duration-200 yellow-glow">
-                    რეგისტრაცია
-                </button>
-            </form>
+        <div class="mb-6 text-center md:text-left">
+            <h1 class="text-2xl font-black text-white flex items-center justify-center md:justify-start gap-2">
+                📖 სასწავლო კონსპექტი / შპარგალკა
+            </h1>
+            <p class="text-sm text-gray-400 mt-1">სია შეიცავს ყველა 114 კითხვას. სწორი პასუხები მონიშნულია მწვანედ.</p>
         </div>
 
-        <!-- 2. მთავარი პანელი (DASHBOARD) -->
-        <div id="dashboard-screen" class="hidden w-full max-w-2xl space-y-6">
-            <div class="glass-card rounded-2xl p-6 relative overflow-hidden">
-                <div class="flex items-center gap-2 text-amber-500 text-sm font-semibold mb-2">
-                    <span>⚡ B კატეგორიის რადიომოყვარულთა გამოცდა</span>
-                </div>
-                <h1 class="text-2xl font-bold text-white mb-2">მოგესალმებით, <span id="dash-username">მომხმარებელო</span>!</h1>
-                <p class="text-gray-400 text-sm mb-6 leading-relaxed">აირჩიეთ სასურველი რეჟიმი: გაიარეთ ოფიციალური საგამოცდო ტესტირება დროის კონტროლით, ან გამოიყენეთ გადამეორების ფუნქცია სრული კითხვების ბაზის შესასწავლად.</p>
-                
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <button id="btn-start-exam" 
-                        class="flex-1 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-6 py-4 rounded-xl flex items-center justify-center gap-2 transition-all yellow-glow text-center">
-                        ▶ ტესტირების დაწყება (30 კითხვა)
-                    </button>
-                    <button id="btn-start-practice" 
-                        class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-4 rounded-xl flex items-center justify-center gap-2 transition-all blue-glow text-center">
-                        📖 ყველა კითხვის გადამეორება (1-114)
-                    </button>
-                </div>
-            </div>
-
-            <!-- სტატისტიკის გრიდი -->
-            <div class="grid grid-cols-2 gap-4">
-                <div class="glass-card p-5 rounded-2xl flex items-center gap-4">
-                    <div class="bg-blue-500/10 text-blue-400 p-3 rounded-xl">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                    </div>
-                    <div>
-                        <div class="text-2xl font-bold text-white" id="stat-count">0</div>
-                        <div class="text-xs text-gray-400">ჩატარებული ტესტი</div>
-                    </div>
-                </div>
-                <div class="glass-card p-5 rounded-2xl flex items-center gap-4">
-                    <div class="bg-amber-500/10 text-amber-400 p-3 rounded-xl">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
-                    </div>
-                    <div>
-                        <div class="text-2xl font-bold text-white" id="stat-best">0/30</div>
-                        <div class="text-xs text-gray-400">საუკეთესო შედეგი</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ბოლო ტესტები -->
-            <div class="glass-card rounded-2xl p-6">
-                <h3 class="text-lg font-bold text-white mb-4">ბოლო ტესტები</h3>
-                <div id="history-list" class="space-y-3">
-                    <p class="text-gray-500 text-sm">ისტორია ცარიელია. გაიარეთ პირველი ტესტი!</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- 3. ტესტირების ეკრანი -->
-        <div id="exam-screen" class="hidden w-full max-w-2xl space-y-6">
-            <div class="flex justify-between items-center px-2">
-                <div class="flex items-center gap-2 text-sm text-gray-400">
-                    <span id="pulsing-dot" class="inline-block w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping"></span>
-                    <span>კითხვა: <strong id="question-progress" class="text-white">1/30</strong></span>
-                </div>
-                <div id="timer-box" class="bg-gray-900/80 border border-gray-800 px-4 py-2 rounded-xl text-amber-400 font-mono font-semibold flex items-center gap-2">
-                    ⏱ <span id="timer">45:00</span>
-                </div>
-            </div>
-
-            <div class="glass-card rounded-2xl p-6 shadow-2xl relative">
-                <h2 id="question-text" class="text-lg font-semibold text-white mb-6 leading-relaxed">
-                    იტვირთება კითხვა...
-                </h2>
-
-                <div id="question-image-container" class="hidden mb-6 bg-slate-900/60 p-4 rounded-xl border border-gray-800 text-center">
-                    <img id="question-image" src="" alt="საკითხავი სურათი" class="mx-auto rounded-lg max-h-56 object-contain">
-                </div>
-
-                <div id="answers-container" class="space-y-3">
-                    <!-- პასუხები -->
-                </div>
-
-                <div class="flex justify-between items-center mt-8 pt-4 border-t border-gray-800">
-                    <button id="btn-prev" class="px-5 py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl transition-colors font-medium">
-                        წინა
-                    </button>
-                    <button id="btn-next" class="px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl transition-colors">
-                        შემდეგი ➔
-                    </button>
-                </div>
-            </div>
-
-            <div class="text-center">
-                <button id="btn-finish-now" class="text-red-400 hover:text-red-300 text-sm font-medium transition-colors">
-                    🚩 ტესტის დასრულება და პანელზე დაბრუნება
-                </button>
-            </div>
-        </div>
-
-        <!-- 4. შედეგების ეკრანი -->
-        <div id="result-screen" class="hidden w-full max-w-md glass-card rounded-2xl p-8 text-center shadow-2xl">
-            <div id="result-icon" class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"></div>
-            <h2 id="result-title" class="text-2xl font-bold text-white mb-2">ტესტი დასრულდა!</h2>
-            <p id="result-score" class="text-4xl font-black text-amber-400 mb-2">18 / 30</p>
-            <p id="result-status" class="text-lg font-semibold mb-6">ჩაიჭრა</p>
-
-            <div class="space-y-3">
-                <button id="btn-back-to-dash" class="w-full bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3.5 rounded-xl transition-colors">
-                    მთავარ გვერდზე დაბრუნება
-                </button>
-                <button id="btn-retry-immediately" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3.5 rounded-xl transition-colors yellow-glow">
-                    🔄 თავიდან ცდა (გამოცდა)
-                </button>
-            </div>
+        <!-- კითხვების კონტეინერი (სქროლვადი სია) -->
+        <div id="questions-list" class="space-y-6">
+            <!-- კითხვები ჩაიწერება დინამიკურად ჯავასკრიპტიდან -->
         </div>
 
     </main>
 
-    <footer class="w-full text-center py-4 text-xs text-gray-600 border-t border-gray-900 bg-slate-950/40">
-        აპლიკაცია აწყობილია 4L5FPV-ის მიერ | © 2026 Radio Exam Prep
+    <!-- ფეხი -->
+    <footer class="w-full text-center py-6 text-xs text-gray-600 border-t border-gray-900 bg-slate-950/60 mt-12">
+        სასწავლო პლატფორმა აწყობილია 4L5FPV-ის მიერ | © 2026 Radio Exam Prep
     </footer>
 
+    <!-- Back to Top ღილაკი -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 bg-emerald-500 hover:bg-emerald-600 text-slate-950 p-3.5 rounded-full shadow-lg opacity-0 pointer-events-none hover:scale-110 active:scale-95 transition-all">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
     <script>
-        // კითხვების სრული ბაზა (1-დან 114-მდე)
-        const questionsDatabase = [
-            // --- კითხვები 1-დან 86-მდე (შემოკლებული ძირითადი სია) ---
+        // 1-დან 114-მდე სრული ბაზა (PDF-ის რეალური ნუმერაციის მიხედვით)
+        // შენიშვნა: correct: null ნიშნავს რომ PDF-ში ამ კითხვაზე სწორი პასუხი მონიშნული არ იყო.
+        // დააჭირეთ პასუხს რომ თვითონ მონიშნოთ სწორი ვარიანტი (ინახება მხოლოდ ამ სესიაში).
+        const fullDatabase = [
             {
                 id: 1,
-                text: "რომელ სიხშირულ დიაპაზონს ეკუთვნის 145 მჰც სიხშირე?",
+                text: "რადიომოყვარულთა საერთაშორისო კავშირის აბრევიატურაა:",
                 image: null,
                 answers: [
-                    { key: "ა", text: "HF (დეკამეტრული ტალღები)" },
-                    { key: "ბ", text: "VHF (მეტრიანი ტალღები)" },
-                    { key: "გ", text: "UHF (დეციმეტრიანი ტალღები)" }
+                    { key: "ა", text: "ITU" },
+                    { key: "ბ", text: "IARU" },
+                    { key: "გ", text: "ARRL" }
                 ],
                 correct: "ბ"
             },
             {
                 id: 2,
-                text: "რომელ სიხშირულ დიაპაზონს ეკუთვნის 433 მჰც სიხშირე?",
+                text: "რადიოკავშირის ჩატარებისას რადიომოყვარული ვალდებულია დაასახელოს თავისი და კორესპონდენტის სახმობი ნიშანი:",
                 image: null,
                 answers: [
-                    { key: "ა", text: "VHF" },
-                    { key: "ბ", text: "HF" },
-                    { key: "გ", text: "UHF" }
+                    { key: "ა", text: "მხოლოდ რადიოკავშირის დასაწყისში" },
+                    { key: "ბ", text: "რადიოკავშირის დასაწყისში და დასასრულს" },
+                    { key: "გ", text: "საკმარისია ახსენოს კავშირის მსვლელობისას ერთხელ" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 3,
+                text: "ეთერში გასვლა ეკრძალება იმ რადიომოყვარულს:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "რომელსაც არ აქვს სამოყვარულო რადიოსადგურის გამოყენების ნებართვა" },
+                    { key: "ბ", text: "ვინც ეთერში გასვლისას არ იყენებს სახმობ ნიშანს" },
+                    { key: "გ", text: "ვისაც ეთერში აქვს უხარისხო ან დამახინჯებული სიგნალი" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 4,
+                text: "კავშირის რა სახის გამოყენება აქვს “B” კატეგორიის რადიომოყვარულს 14 მგჰც დიაპაზონში?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "CW და SSB" },
+                    { key: "ბ", text: "მხოლოდ SSB" },
+                    { key: "გ", text: "მხოლოდ CW" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 5,
+                text: "ახალ სიხშირეზე გადასვლისას თქვენ:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ჯერ უსმენთ სიხშირეს და ამ სიხშირეზე სხვა სუსტი რადიოსადგურის ყოფნის შემთხვევაში იწყებთ აქ მუშაობას" },
+                    { key: "ბ", text: "მოსმენის გარეშე იწყებთ ეთერში მუშაობას" },
+                    { key: "გ", text: "გულმოდგინედ მოუსმენთ სიხშირეს, იკითხავთ არის თუ არა დაკავებული სიხშირე და მხოლოდ ამის შემდეგ იკავებთ ამ სიხშირეს" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 6,
+                text: "შეიძლება თუ არა, რომ რადიომოყვარულმა ეთერში მუშაობისას გამოიყენოს სხვა სახის შემოკლებანი ან კოდები:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "არ შეიძლება" },
+                    { key: "ბ", text: "დაშვებულია მხოლოდ ადგილობრივი რადიოკავშირების ჩატარებისას" },
+                    { key: "გ", text: "შეიძლება" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 7,
+                text: "თქვენს სიხშირეზე გიკავშირდებათ კონკრეტული რადიოსადგური და გთხოვთ აუცილებლად დაუთმოთ მას ეს სიხშირე. თქვენ:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "უცხადებთ მას სასტიკ უარს" },
+                    { key: "ბ", text: "შეუმჩნეველს დატოვებთ მის თხოვნას" },
+                    { key: "გ", text: "თავაზიანად უპასუხებთ მას და დაუთმობთ ამ სიხშირეს" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 8,
+                text: "რა შემთხვევაშია შესაძლებელი სატელევიზიო, რადიოსამოყვარულო ან სხვა სიგნალების რეტრანსლირება რადიოსამოყვარულო დიაპაზონებში:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "არ შეიძლება" },
+                    { key: "ბ", text: "შესაძლებელია შეზღუდვების გარეშე" },
+                    { key: "გ", text: "შესაძლებელია, თუ გვაქვს შესაბამისი ნებართვა" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 9,
+                text: "ვალდებულია თუ არა რადიომოყვარული, რომ ჩატარებული ყველა რადიოკავშირის შეიტანოს სააპარატო ჟურნალში?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "აუცილებელია" },
+                    { key: "ბ", text: "არ არის აუცილებელი საერთოდ ჩატარებული ყველა რადიოკავშირის შეტანა სააპარატო ჟურნალში" },
+                    { key: "გ", text: "აუცილებელია ჩატარებული ყველა რადიოკავშირის შეიტანოს სააპარატო ჟურნალში (ულტრამოკლე დიაპაზონებზე ჩატარებული რადიოკავშირის გარდა)" }
                 ],
                 correct: "გ"
             },
             {
                 id: 10,
-                text: "რა არის რადიომოყვარულთა საერთაშორისო კავშირის აბრევიატურა?",
+                text: "სტიქიური უბედურების შემთხვევაში რადიოსადგურები გადასცემენ SOS-ის ან MAYDAY-ს სიგნალებს. რა ტექნიკური განსხვავებაა მათ შორის?",
                 image: null,
                 answers: [
-                    { key: "ა", text: "ITU" },
-                    { key: "ბ", text: "IARU" },
-                    { key: "გ", text: "FCC" }
+                    { key: "ა", text: "არ არის არანაირი განსხვავება" },
+                    { key: "ბ", text: "SOS გადაიცემა ტელეგრაფით, ხოლო MAYDAY - ტელეფონით" },
+                    { key: "გ", text: "SOS გადაიცემა VHF და UHF ტალღათა დიაპაზონებში" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 11,
+                text: "დაშვებულია თუ არა რადიოკავშირის ჩატარება არასამოყვარულო სადგურებთან?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "არ არის დაშვებული" },
+                    { key: "ბ", text: "დაშვებულია" },
+                    { key: "გ", text: "დაშვებულია მხოლოდ მეორადი გამოყენების დიაპაზონებში" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 12,
+                text: "შეიძლება თუ არა რადიოსამოყვარულო სამსახური გამოყენებული იქნას პირადი დაინტერესებისა და გამორჩენის მიზნით?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "არ შეიძლება" },
+                    { key: "ბ", text: "შეიძლება" },
+                    { key: "გ", text: "თუ მას აქვს ამის თაობაზე მიღებული შესაბამისი ნებართვა" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 13,
+                text: "თქვენს სიხშირეზე სხვა რადიოსადგური მოგმართავთ უწმაწური და უცენზურო სიტყვებით. ამ შემთხვევაში თქვენ:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "სთხოვთ მას სიხშირის დატოვებას და პასუხობთ ასევე უცენზუროდ" },
+                    { key: "ბ", text: "იწყებთ მის დამშვიდებას" },
+                    { key: "გ", text: "გადადიხართ სხვა სიხშირეზე" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 14,
+                text: "როგორ იწერება სწორად ეთერში წარმოთქმული სახმობი Four Lima One Bravo Radio?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "4L4FK" },
+                    { key: "ბ", text: "4L1BR" },
+                    { key: "გ", text: "4L1AE" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 15,
+                text: "რა სიმძლავრის გამოყენება შეუძლია ‘B’ კატეგორიის რადიოსადგურს:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "100 ვატის" },
+                    { key: "ბ", text: "400 ვატის" },
+                    { key: "გ", text: "1600 ვატის" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 16,
+                text: "რა შემთხვევაშია შესაძლებელი სამოყვარულო რადიოსადგურის გამოყენების ნებართვის გაუქმება სამოყვარულო რადიოსადგურის გამოყენების წესის:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "5110 მუხლის პირველი პუნქტის განმეორებითი დარღვევის შემთხვევაში" },
+                    { key: "ბ", text: "517 მუხლის მე-11 პუნქტის განმეორებითი დარღვევის შემთხვევაში" },
+                    { key: "გ", text: "5110 მუხლის მე-2 და მე-3 პუნქტების დარღვევის შემთხვევაში" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 17,
+                text: "« B » კატეგორიის რადიოსადგურს რომელ სიხშირულ დიაპაზონში არ შეუძლია გამოიყენოს SSB სახის მოდულაცია:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "10 მგჰც დიაპაზონში" },
+                    { key: "ბ", text: "21 მგჰც დიაპაზონზე" },
+                    { key: "გ", text: "14 მგჰც დიაპაზონზე" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 18,
+                text: "თქვენი გადამცემი ხელშეშლებს უქმნის მეზობლის ელექტრო მოწყობილობას. ამ შემთხვევაში თქვენ:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "აგრძელებთ გადამცემის გამოყენებას" },
+                    { key: "ბ", text: "შესაბამის სამსახურებს სთხოვთ პრობლემის მოგვარებას" },
+                    { key: "გ", text: "ადგენთ ხელშეშლის მიზეზს და აღმოფხვრით მას" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 19,
+                text: "ეთერში მუშაობისას თქვენს ოთახში არსებული ხმაური გადის ეთერში. ამ შემთხვევაში:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ყურადღებას არ აქცევთ ამ ფაქტს" },
+                    { key: "ბ", text: "ცდილობთ მაღალი ხმით გადაფაროთ ეს ხმაური" },
+                    { key: "გ", text: "წყვეტთ ეთერში მუშაობას ხმაურის აღმოფხვრამდე" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 20,
+                text: "შეზღუდულია თუ არა სამოყვარულო დიაპაზონებში ეთერში სასაუბრო თემატიკა?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "არ არის შეზღუდული" },
+                    { key: "ბ", text: "შეზღუდულია მხოლოდ მოკლე ტალღებზე" },
+                    { key: "გ", text: "შეზღუდულია და განისაზღვრება დადგენილი საერთაშორისო წესის მიხედვით" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 21,
+                text: "დასაშვებია თუ არა, რომ თქვენი რადიოსადგურიდან ეთერში გავიდეს სხვა რადიომოყვარული:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "არ არის დაშვებული" },
+                    { key: "ბ", text: "დასაშვებია" },
+                    { key: "გ", text: "დასაშვებია, თუ ეს რადიომოყვარული ფლობს საქართველოს კომუნიკაციების ეროვნული კომისიის მიერ გაცემულ შესაბამის ნებართვას" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 22,
+                text: "ვინ ახორციელებს სამოყვარულო რადიოსადგურის ტექნიკურ კონტროლს:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "საქართველოს რადიომოყვარულთა ეროვნული ასოციაცია" },
+                    { key: "ბ", text: "რადიომოყვარულათა ლიგა" },
+                    { key: "გ", text: "საქართველოს კომუნიკაციების ეროვნული კომისია" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 23,
+                text: "საცხოვრებელი ადგილის შეცვლის შემთხვევაში რადიომოყვარული:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ახალი საცხოვრებელი ადგილიდან აგრძელებს ეთერში მუშაობას" },
+                    { key: "ბ", text: "ახალი საცხოვრებელი ადგილიდან აგრძელებს ეთერში მუშაობას და ოფიციალურად ატყობინებს სკეკ-ს" },
+                    { key: "გ", text: "წინასწარ იღებს ნებართვას სკეკ-დან" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 24,
+                text: "რას აღნიშნავს RX აბრევიატურა",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ვერტიკალური ანტენა" },
+                    { key: "ბ", text: "მიღება" },
+                    { key: "გ", text: "ელექტრონული გასაღები" }
                 ],
                 correct: "ბ"
             },
             {
                 id: 25,
-                text: "რა არის ძაბვის საზომი ერთეული?",
+                text: "როდის უნდა გაკეთდეს სმენადობის შეფასება",
                 image: null,
                 answers: [
-                    { key: "ა", text: "ამპერი" },
-                    { key: "ბ", text: "ვოლტი" },
-                    { key: "გ", text: "ომი" }
+                    { key: "ა", text: "საუბრის დასაწყისში მოთხოვნისთანავე" },
+                    { key: "ბ", text: "5-10 წუთიანი ინტერვალებით" },
+                    { key: "გ", text: "ყოველი გადაცემის შემდეგ" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 26,
+                text: "რადიომოყვარულის ნებართვის მიღების შემდეგ, შეიძლება რადიოსადგურზე დამოუკიდებლად მუშაობა",
+                image: null,
+                answers: [
+                    { key: "ა", text: "შეიძლება, მხოლოდ რადიომოყვარულის ნებართვის მქონე პირის თანდასწრებით" },
+                    { key: "ბ", text: "შეიძლება, სპეციალური გადაწყვეტილებით ნებადართულ სიხშირეებზე" },
+                    { key: "გ", text: "შეიძლება, რადგან მხოლოდ რადიომოყვარულის ნებართვაა განკუთვნილი სამოყვარულო რადიოსადგურის ფუნქციონირებისთვის" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 27,
+                text: "რა არის სახმობი",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ეს არის რადიომოყვარულის მიერ შედგენილი ასოების და ციფრების კომბინაცია, სიმბოლო" },
+                    { key: "ბ", text: "ეს არის პაროლი კონკრეტული რადიომოყვარულის გამოსაძახებლად" },
+                    { key: "გ", text: "ეს არის სამოყვარულო რადიოსადგურის აღმნიშვნელი სიმბოლო, რომელიც არის ასოების და ციფრების კომბინაცია და უნიკალურია მსოფლიო მასშტაბით" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 28,
+                text: "შეიძლება თუ არა გამოყენებული იქნას სახმობი სიხშირულ ზოლებში, რომლებიც არ არის განკუთვნილი სამოყვარულო დიაპაზონებისთვის",
+                image: null,
+                answers: [
+                    { key: "ა", text: "შეიძლება, თუ გაქვთ კომისიის სპეციალური ნებართვა" },
+                    { key: "ბ", text: "არ შეიძლება, სახმობი გამოყენებული უნდა იქნას მხოლოდ სამოყვარულო დიაპაზონებში" },
+                    { key: "გ", text: "ეს არ არის აკრძალული და დამოკიდებულია რადიომოყვარულის გადაწყვეტილებაზე" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 29,
+                text: "რას წარმოადგენს LOG საკომუნიკაციო ჟურნალი?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ეს არის რადიომოყვარული დოკუმენტი, რომელშიც მოცემულია რადიოსეანსები სხვა რადიომოყვარულებთან მათში სახმობის, სახელის, QSO კავშირის, დროის და დიაპაზონების მითითებით" },
+                    { key: "ბ", text: "ეს არის ინფორმაცია არსებულ პროცედურებზე, რომლის მიხედვითაც უნდა ჩატარდეს რადიოსეანსები" },
+                    { key: "გ", text: "ეს არის ინფორმაცია, რომელშიც აღნიშნულია სამოყვარულო რადიოსადგურის ინსპექტირება კომისიის მიერ" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 30,
+                text: "რას აღნიშნავს უნივერსალური დრო UTC?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ნულოვან მერიდიანთან გათანაბრებულ დროს (GMT), რომლის მიხედვითაც ხდება რადიომოყვარულის მიერ ჟურნალში რადიოსეანსების დროის დაფიქსირება" },
+                    { key: "ბ", text: "დროს, როდესაც არ უნდა განახორციელოთ QSO კავშირები" },
+                    { key: "გ", text: "დროს, როდესაც შეგიძლიათ განახორციელოთ რადიოსეანსები ევროპის ქვეყნებთან" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 31,
+                text: "რა არის საერთაშორისო კოდი „Q\"?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ლათინური ასოებისგან შემდგარი სიმბოლოების კრებული, რომელიც ყოველთვის იწყება Q ასოთი და რომელსაც შეესაბამება მარტივი წინადადება" },
+                    { key: "ბ", text: "სიმბოლო, რომელიც შედგება ასო Q და 2-3 ციფრისგან, რომელიც აღნიშნავს მიღებული სიგნალის ხარისხს" },
+                    { key: "გ", text: "სახმობის პრეფიქსების სია ITU-ს შესაბამისად" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 32,
+                text: "აუცილებელია თუ არა, რომ რადიომოყვარულმა დაამიწოს მის მიერ გამოყენებული რადიოსამოყვარულო მოწყობილობა?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "აუცილებელია" },
+                    { key: "ბ", text: "არ არის აუცილებელი" },
+                    { key: "გ", text: "ეს დამოკიდებულია გადამცემის სიმძლავრეზე" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 33,
+                text: "თქვენი საანტენო მოწყობილობის უსაფრთხოებაზე პასუხისმგებელია:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ის პირი ან ორგანიზაცია ვინც დაამონტაჟა თქვენი საანტენო მოწყობილობა" },
+                    { key: "ბ", text: "იმ სახლის პატრონი, რომლის სახლის სახურავზეც არის დამონტაჟებული თქვენი ანტენა" },
+                    { key: "გ", text: "ის პირი, ვისაც ეკუთვნის ეს საანტენო მოწყობილობა" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 34,
+                text: "ჭექა-ქუხილის და ძლიერი ატმოსფერული განმუხტვების დროს თქვენ:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "წყვეტთ ეთერში გადაცემაზე მუშაობას და ჩართულს ტოვებთ რადიოსადგურს" },
+                    { key: "ბ", text: "გამორთავთ რადიოსამოყვარულო მოწყობილობას და ამიწებთ ოთახში შემოსულ საანტენო ყველა ფიდერს" },
+                    { key: "გ", text: "თუ ეს ხელს არ გიშლით აგრძელებთ ეთერში მუშაობას" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 35,
+                text: "სიცოცხლისთვის საშიშ ძაბვად ითვლება:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "220 ვოლტი" },
+                    { key: "ბ", text: "36 ვოლტზე მეტი" },
+                    { key: "გ", text: "1000 ვოლტი" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 36,
+                text: "შეიძლება თუ არა გამოყენებული იქნას წყალგაყვანილობის, ცენტრალური გათბობის, გაზგაყვანილობის ლითონის მილები ანტენის დამიწებისთვის?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "დიახ" },
+                    { key: "ბ", text: "მხოლოდ წყლის მრიცხველის და მისი დამიწების შემოწმების შემდეგ" },
+                    { key: "გ", text: "არა, ეს აკრძალულია" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 37,
+                text: "რატომ არსებობს შეზღუდვები მძლავრი რადიო და სატელევიზიო გადამცემი ობიექტების სიახლოვეს?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ჭექა-ქუხილის, ელვის გამო" },
+                    { key: "ბ", text: "ელექტრომაგნიტური ველის მაღალი ინტენსივობის გამო, რომელსაც შეუძლია გამოწვიოს ჯანმრთელობის პრობლემები" },
+                    { key: "გ", text: "ანძის გადაქცევის ალბათობის გამო" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 38,
+                text: "დასაშვებია თუ არა ანტენაზე მუშაობა, როდესაც გადამცემი ჩართულია?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "აუჩქარებლად, შეზღუდვების გარეშე" },
+                    { key: "ბ", text: "აუჩქარებლად, მხოლოდ იმ შემთხვევაში, თუ გადამცემი არის მცირე სიმძლავრის" },
+                    { key: "გ", text: "კატეგორიულად აკრძალულია" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 39,
+                text: "შეიძლება თუ არა მოვახდინოთ არააქტიური ანტენის შეერთება იმ დროს, როდესაც გადამცემი ჩართულია და მუშაობს ანალოგიურ ანტენაზე?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "არ შეიძლება" },
+                    { key: "ბ", text: "დიახ, შეიძლება" },
+                    { key: "გ", text: "შეიძლება, თუ გადამცემი მუშაობს მცირე სიმძლავრით" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 40,
+                text: "შეუძლია თუ არა ცუდად დამონტაჟებულმა დამიწების კონტურმა გამოიწვიოს მავნე მაღალსიხშირული გამოსხივება?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "არა" },
+                    { key: "ბ", text: "დიახ" },
+                    { key: "გ", text: "ყოველთვის არა" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 41,
+                text: "რა არის საშიშროება როდესაც ხელში გვიჭირავს დამუხტული, ელექტროლიტური კონდენსატორი?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "დენის დარტყმა (სხეულის დაზიანება)" },
+                    { key: "ბ", text: "არ არის საშიშროება" },
+                    { key: "გ", text: "კონდენსატორის დაზიანება (ფიზიკურად დაშლა)" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 42,
+                text: "შეიძლება თუ არა იყოს საშიში კვების წყაროს (ბატარეა, აკუმულატორი) დამოკლება მავთულით?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ეს დამოკიდებულია აკუმულატორის ტევადობაზე" },
+                    { key: "ბ", text: "არა, არ შეიძლება" },
+                    { key: "გ", text: "დიახ, ამან შეიძლება გამოიწვიოს მავთულის დადნობა/დაწვა და კვების წყაროს მეტალის ფირფიტების დადნობა" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 43,
+                text: "მაღალსიხშირულ ელექტრომაგნიტურ გამოსხივებას შეუძლია თუ არა მოახდინოს გავლენა ადამიანის ჯანმრთელობაზე?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "არა" },
+                    { key: "ბ", text: "დიახ" },
+                    { key: "გ", text: "არა, თუ ვიყენებთ სპეციალურ დამცავ ტანსაცმელს" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 44,
+                text: "შეიძლება თუ არა გადამცემის პლასტიკური კორპუსი განხილული იქნას როგორც დამცავი, მასზე გარე რადიოსიხშირული ენერგიის ზემოქმედებისგან?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ეს არის საკმარისი დაცვა მაღალსიხშირული ენერგიისგან" },
+                    { key: "ბ", text: "ასეთი დამცავი მოწყობილობა ძირითადად გამოიყენება მხოლოდ საველე ადგილმდებარეობებზე (QTH). ამიტომ ასეთი დაცვა არ არის საჭირო" },
+                    { key: "გ", text: "არ უზრუნველყოფს არანაირ დაცვას რადიოსიხშირული ენერგიისგან" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 45,
+                text: "ელექტროენერგიის ზემოქმედების (ელექტრული დენის დარტყმა) შემთხვევაში, რა მოქმედებები უნდა განვახორციელოთ?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "მივიღოთ ზომები თანმდევი დამწვრობის სამკურნალოდ" },
+                    { key: "ბ", text: "გადავრთავთ ელექტროენერგიის მოწოდების წყაროს, აუცილებლობის შემთხვევაში გამოვიძახოთ ექიმი, ჩავუტაროთ გულის მასაჟი და ხელოვნური სუნთქვა" },
+                    { key: "გ", text: "მოვიხმოთ საშველად ახლომყოფები ერთობლივი სამაშველო ქმედებების ჩასატარებლად" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 46,
+                text: "მუდმივი დენის წყაროს კაბელი აღინიშნება შემდეგი ფერით:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ყვითელი და შავი" },
+                    { key: "ბ", text: "ლურჯი და შავი" },
+                    { key: "გ", text: "წითელი და შავი" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 47,
+                text: "ახალი რადიომოწყობილობის ექსპლუატაციაში გასაშვებად:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "მას ვაერთებთ კვების წყაროსთან და ვრთავთ" },
+                    { key: "ბ", text: "მას ვუერთებთ ანტენას და ვაკეთებთ დამიწებას" },
+                    { key: "გ", text: "ვადგენთ შეესაბამება თუ არა ქსელში არსებულ ძაბვას და ვირჩევთ შესაბამის დამცველებს" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 48,
+                text: "რადიოკავშირის სეანსის დამთავრების შემდეგ:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ვთიშავთ კვების წყაროს" },
+                    { key: "ბ", text: "ვთიშავთ კვების წყაროს და ვაკეთებთ ანტენის დამიწებას" },
+                    { key: "გ", text: "ვთიშავთ კვების წყაროს, ვაკეთებთ ანტენის დამიწებას" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 49,
+                text: "შეიძლება თუ არა რადიო და მისი დამხმარე მოწყობილობა ჩავრთოთ ელექტრო კვების ქსელის სხვადასხვა ფაზებზე?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "შეიძლება, არ არსებობს უკუჩვენებები" },
+                    { key: "ბ", text: "შეიძლება" },
+                    { key: "გ", text: "კატეგორიულად მიუღებელია, ეს გამოიწვევს მოწყობილობის მწყობრიდან გამოსვლას და საფრთხე შეექმნება ოპერატორის ჯანმრთელობას" }
                 ],
                 correct: "ბ"
             },
             {
                 id: 50,
-                text: "რა არის რეზისტორის დანიშნულება ელექტრულ წრედში?",
+                text: "ელექტრომოწყობილობაზე ხანძრის აღმოჩენის შემთხვევაში:",
                 image: null,
                 answers: [
-                    { key: "ა", text: "დენის გატარების ხელშეშლა (წინააღმდეგობის გაწევა)" },
-                    { key: "ბ", text: "მუხტის დაგროვება" },
-                    { key: "გ", text: "ძაბვის გაზრდა" }
+                    { key: "ა", text: "ვუკავშირდებით სახანძრო რაზმს" },
+                    { key: "ბ", text: "ვეძახით სხვა პიროვნებას და ვაქრობთ" },
+                    { key: "გ", text: "ვთიშავთ კვების წყაროდან და ვაქრობთ, ვიძახებთ ასევე სახანძრო რაზმს აუცილებლობის შემთხვევაში" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 51,
+                text: "ელექტრო-დამწვრობის შემთხვევაში:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "დაიბანეთ დამწვარი ადგილები ცივი წყლით და მიმართეთ ექიმს" },
+                    { key: "ბ", text: "შეამოწმეთ ხომ არ არის დაზიანებული ტანსაცმელი და ფეხსაცმელი. დაზიანების შემთხვევაში გამოიცვალეთ" },
+                    { key: "გ", text: "დაიბანეთ წყლით დამწვარი ადგილები" }
                 ],
                 correct: "ა"
             },
             {
-                id: 70,
-                text: "რას უდრის ტალღის სიგრძე, თუ სიხშირეა 300 მჰც?",
+                id: 52,
+                text: "მოკლეტალღოვანი ანტენის ჭექა-ქუხილის მიმართ დაცვის საუკეთესო საშუალება არის:",
                 image: null,
                 answers: [
-                    { key: "ა", text: "10 მეტრს" },
-                    { key: "ბ", text: "1 მეტრს" },
-                    { key: "გ", text: "0.1 მეტრს" }
+                    { key: "ა", text: "მისი რადიომოწყობილობიდან ჩახსნა და შემაერთებელი კაბელის შენობის გარეთ გატანა" },
+                    { key: "ბ", text: "რადიომოწყობილობიდან ჩახსნა და მისი დამიწება" },
+                    { key: "გ", text: "არანაირი ქმედება არ მოითხოვება" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 53,
+                text: "შეიძლება თუ არა საანტენო კაბელის განთავსება სავენტილაციო სისტემის არხში, თუ მის გვერდით გვაქვს მოქმედი გამწოვი საკვამლე არხი?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "შეიძლება" },
+                    { key: "ბ", text: "არანაირად არ შეიძლება" },
+                    { key: "გ", text: "შეიძლება, მხოლოდ სეზონურად" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 54,
+                text: "შეიძლება თუ არა ჩვენმა რადიოსადგურმა შექმნას ხელშეშლები ქვეყნის საზღვრებს გარეთ?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "არ შეიძლება" },
+                    { key: "ბ", text: "შეიძლება, მხოლოდ რადიოსადგურის გადაწყობის დროს" },
+                    { key: "გ", text: "შეიძლება" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 55,
+                text: "შეიძლება თუ არა რადიოსამოყვარულო სადგურის საანტენო ფიდერი გაყვანილი იქნას მიმღები სატელევიზიო ანტენის გვერდით",
+                image: null,
+                answers: [
+                    { key: "ა", text: "შეიძლება, თუ გადამცემის სიმძლავრე არ არის დიდი" },
+                    { key: "ბ", text: "არ შეიძლება, დაშორებული უნდა იყოს მაქსიმალურად" },
+                    { key: "გ", text: "კაბელებს შორის დაშორებას არა აქვს მნიშვნელობა" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 56,
+                text: "რა შედეგები შეიძლება გამოიწვიოს კაბელის გარე ეკრანის დაზიანებამ?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "არანაირი" },
+                    { key: "ბ", text: "ამინდის მიუხედავად გვაქვს ხელშეშლების ზრდა" },
+                    { key: "გ", text: "შეინიშნება ხელშეშლების ზრდა და იცვლება კაბელის წინაღობა, რამაც შეიძლება გამოიწვიოს სხვადასხვა სახის მოწყობილობების ან სხეულის დაზიანება" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 57,
+                text: "რა სიმძლავრით მუშაობს რადიომოყვარული სახმობით 4L1AE/QRP?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "200 ვტ-ზე მეტი" },
+                    { key: "ბ", text: "10 ვტ ან ნაკლები 1 ვტ-მდე" },
+                    { key: "გ", text: "არ არის განსაზღვრული" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 58,
+                text: "მიუთითეთ საზღვრები რადიომოყვარულთა 160 მ. დიაპაზონის, სადაც უფლება აქვს იმუშაოს რადიომოყვარულმა:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "1810-2000 კჰც" },
+                    { key: "ბ", text: "1900-1930 კჰც" },
+                    { key: "გ", text: "1840-2000 კჰც" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 59,
+                text: "მიუთითეთ რადიომოყვარულთა 160 მ. დიაპაზონის სატელეფონო მონაკვეთის საზღვრები, სადაც უფლება აქვს იმუშაოს რადიომოყვარულმა:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "1810-2000 კჰც" },
+                    { key: "ბ", text: "1900-1930 კჰც" },
+                    { key: "გ", text: "1840-2000 კჰც" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 60,
+                text: "რა არის DX რადიოსადგური?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "შორეული ან იშვიათი სადგური" },
+                    { key: "ბ", text: "მიმართული ანტენების სახეობა" },
+                    { key: "გ", text: "რადიოსადგური მომუშავე ცუდი სიგნალით" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 61,
+                text: "რა არის RST?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "სტოპური ბიტი ტელეტაიპით მუშაობის დროს" },
+                    { key: "ბ", text: "გარჩევადობა, სმენადობა, ტონი" },
+                    { key: "გ", text: "სლოვენიის ნაციონალური რადიომოყვარულთა ორგანიზაცია" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 62,
+                text: "როგორ აღინიშნება მუშაობის სახეობა – ერთზოლოვანი მოდულაცია?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "CW" },
+                    { key: "ბ", text: "SSB" },
+                    { key: "გ", text: "FM" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 63,
+                text: "როგორ აღინიშნება მუშაობის სახეობა – ტელეგრაფი?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "RTTY" },
+                    { key: "ბ", text: "CW" },
+                    { key: "გ", text: "FM" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 64,
+                text: "მოდულაციის რომელი სახეობით შეიძლება მუშაობა სატელეფონო მონაკვეთის ნაწილში 160 მ. დიაპაზონზე (1900-2000 კჰც)?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "AM" },
+                    { key: "ბ", text: "FM" },
+                    { key: "გ", text: "AM, SSB" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 65,
+                text: "რომელ სიხშირეზე მოდის DX ფანჯარა 160 მ. დიაპაზონში?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "1840-1845 კჰც" },
+                    { key: "ბ", text: "1930-2000 კჰც" },
+                    { key: "გ", text: "1900-2000 კჰც" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 66,
+                text: "რომელი სიხშირეებია გამოყოფილი ორმეტრიან დიაპაზონში მუშაობისთვის, რეტრანსლატორების გამოყენებით?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "144000-146000 კჰც" },
+                    { key: "ბ", text: "145000-145200 კჰც" },
+                    { key: "გ", text: "145000-146000 კჰც" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 67,
+                text: "რომელ სიხშირეებზე არ შეიძლება მუშაობა ორმეტრიან დიაპაზონში სიხშირული მოდულაციით, რეტრანსლატორის გამოუყენებლად?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "144000-146000 კჰც" },
+                    { key: "ბ", text: "145000-146000 კჰც" },
+                    { key: "გ", text: "144500-144625, 144675-145000, 145200-145600 კჰც" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 68,
+                text: "რომელი Q-კოდით აღინიშნება სიტყვა „რადიოკავშირი“?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "QSO" },
+                    { key: "ბ", text: "QSL" },
+                    { key: "გ", text: "QRZ" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 69,
+                text: "ორ წერტილს შორის პოტენციალთა სხვაობას ეწოდება:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "დენი" },
+                    { key: "ბ", text: "ძაბვა" },
+                    { key: "გ", text: "სიხშირე" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 70,
+                text: "დამუხტული ნაწილაკების გადაადგილებას ეწოდება:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "წინაღობა" },
+                    { key: "ბ", text: "ძაბვა" },
+                    { key: "გ", text: "დენი" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 71,
+                text: "ტრანსფორმატორი ეს ისეთი სახის ხელსაწყოა, რომელიც:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "გამოიყენება დაბალსიხშირულ მოწყობილობებში" },
+                    { key: "ბ", text: "არეგულირებს ძაბვას" },
+                    { key: "გ", text: "ერთი სახის ელექტროენერგიას გარდაქმნის მეორე სახის ელექტროენერგიად" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 72,
+                text: "რა შემთხვევაში ითვლება გადამცემის ანტენა დაბალეფექტურად: თუ ე.წ. ტალღის მდგრადობის კოეფიციენტი კაბელში (მტკ) აღემატება:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ორს" },
+                    { key: "ბ", text: "ერთს" },
+                    { key: "გ", text: "ერთნახევარს" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 73,
+                text: "გადამცემის სიმძლავრედ ითვლება მისი:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "გამოსავალი სიმძლავრე" },
+                    { key: "ბ", text: "გამოსხივებული სიმძლავრე" },
+                    { key: "გ", text: "მოხმარებული დენის და ძაბვის ნამრავლის მიხედვით მიღებული სიმძლავრე" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 74,
+                text: "თქვენი გადამცემის ანტენა იკვებება კოაქსიალური კაბელით. ამ შემთხვევაში გაქვთ ანტენის:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "სიმეტრიული კვება" },
+                    { key: "ბ", text: "არასიმეტრიული კვება" },
+                    { key: "გ", text: "ეს დამოკიდებულია ანტენის გამოსხივებაზე" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 75,
+                text: "რადიოტალღების გავრცელება დამოკიდებულია:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ამინდის ცვალებადობაზე" },
+                    { key: "ბ", text: "წლის დროზე" },
+                    { key: "გ", text: "ატმოსფეროს მაგნიტურ მდგომარეობაზე" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 76,
+                text: "ქსელში ძაბვის გაზომვა ხდება:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "წყაროს პარალელურად" },
+                    { key: "ბ", text: "წყაროს მიმდევრობით" },
+                    { key: "გ", text: "არ აქვს მნიშვნელობა" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 77,
+                text: "ელექტრომაგნიტური კოჭის ინდუქტიურობა იზომება:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ჰერცებში" },
+                    { key: "ბ", text: "ჰენრებში" },
+                    { key: "გ", text: "დეციბელებში" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 78,
+                text: "ელექტრო-აკუმულატორში თქვენ ზომავთ:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ცვლად დენს" },
+                    { key: "ბ", text: "მუდმივ დენს" },
+                    { key: "გ", text: "ცვლად ძაბვას" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 79,
+                text: "დაწერეთ ომის კანონი:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "P=UxI" },
+                    { key: "ბ", text: "R=U/I" },
+                    { key: "გ", text: "F=MA" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 80,
+                text: "ნათურას აქვს 24 ვატი სიმძლავრე და კვების წყაროდან იღებს 2 ამპერ დენს. რა არის ნათურის სამუშაო ძაბვა?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "24 ვოლტი" },
+                    { key: "ბ", text: "12 ვოლტი" },
+                    { key: "გ", text: "48 ვოლტი" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 81,
+                text: "რამდენი 4,5 ვოლტიანი ბატარეა უნდა შევაერთოთ მიმდევრობით, რომ მივიღოთ 90 ვოლტიანი წარმომქმნელი ბატარეა?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "15 ერთეული" },
+                    { key: "ბ", text: "10 ერთეული" },
+                    { key: "გ", text: "20 ერთეული" }
+                ],
+                correct: "გ"
+            },
+            {
+                id: 82,
+                text: "ფერომაგნიტურ ნივთიერებაში მაგნიტური ველი ვრცელდება:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "უკეთესად, ვიდრე ჰაერში" },
+                    { key: "ბ", text: "როგორც ჰაერში" },
+                    { key: "გ", text: "უარესად, ვიდრე ჰაერში" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 83,
+                text: "თუ ელექტრომაგნიტური ტალღის ელექტრული მდგენელი დედამიწის პერპენდიკულარულია, მაშინ ტალღას გააჩნია შემდეგი პოლარიზაცია:",
+                image: null,
+                answers: [
+                    { key: "ა", text: "ჰორიზონტალური" },
+                    { key: "ბ", text: "ვერტიკალური" },
+                    { key: "გ", text: "წრიული" }
+                ],
+                correct: "ბ"
+            },
+            {
+                id: 84,
+                text: "დამოკიდებულია თუ არა ელექტრომაგნიტური ტალღის გავრცელების სიჩქარე გარემოზე, რომელშიც ის ვრცელდება?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "დიახ" },
+                    { key: "ბ", text: "არ არის დამოკიდებული" },
+                    { key: "გ", text: "ყოველთვის ერთი და იგივეა" }
+                ],
+                correct: "ა"
+            },
+            {
+                id: 85,
+                text: "ტალღის სიგრძე არის 1500 მეტრი. რა არის ამ ტალღის სიხშირე?",
+                image: null,
+                answers: [
+                    { key: "ა", text: "2 მგჰც" },
+                    { key: "ბ", text: "200 კჰც" },
+                    { key: "გ", text: "233 კჰც" }
                 ],
                 correct: "ბ"
             },
             {
                 id: 86,
-                text: "რას ნიშნავს ტერმინი SWR (КСВ)?",
+                text: "რა სიხშირული ბგერითი დიაპაზონია საკმარისი, ლაპარაკის გარჩევით ტრანსლირებისთვის.",
                 image: null,
                 answers: [
-                    { key: "ა", text: "მდგარი ტალღის კოეფიციენტს" },
-                    { key: "ბ", text: "გადამცემის მაქსიმალურ სიმძლავრეს" },
-                    { key: "გ", text: "მიმღების მგრძნობელობას" }
+                    { key: "ა", text: "300 ჰც - 3,2 კჰც" },
+                    { key: "ბ", text: "100 ჰც - 5 კჰც" },
+                    { key: "გ", text: "20 ჰც - 15 კჰც" }
                 ],
-                correct: "ა"
+                correct: "გ"
             },
-
-            // --- შენ მიერ გამოგზავნილი კითხვები (87-დან 114-ის ჩათვლით) ---
             {
                 id: 87,
                 text: "VHF FM რეტრანსლატორის რადიო არხის სიგანე არის:",
@@ -292,7 +1047,7 @@
             },
             {
                 id: 88,
-                text: "რომელია ერთგვერდა (SSB) მოდულაციის რადიო არხის სიგანე",
+                text: "რომელია ერთზოლოვანი (SSB) მოდულაციის რადიო არხის სიგანე",
                 image: null,
                 answers: [
                     { key: "ა", text: "9 კჰც" },
@@ -303,7 +1058,7 @@
             },
             {
                 id: 89,
-                text: "ოსცილოგრაფით უნდა გაიზომოს რადიოგადამცემის გამოსასვლელზე გამომუშავებული სიმძლავრე. ქვემოთ მოყვანილი სიმძლავრის რომელი მნიშვნელობა შეესაბამება მაქსიმალურ U max = 100 ვოლტ ძაბვას, 50 ომი დატვირთვის არსებობის შემთხვევაში?",
+                text: "ოსცილოგრაფით უნდა გაიზომოს რადიოგადამცემის გამოსავალზე გამომუშავებული სიმძლავრე. ქვემოთ მოყვანილი სიმძლავრეებიდან რომელი შეესაბამება მაქსიმალურ U max = 100 ვოლტ ძაბვას, 50 ომი დატვირთვის არსებობის შემთხვევაში?",
                 image: null,
                 answers: [
                     { key: "ა", text: "200 ვტ" },
@@ -314,7 +1069,7 @@
             },
             {
                 id: 90,
-                text: "ტრანსფორმატორს გააჩნია გადაცემის კოეფიციენტი 20 : 1. პირველადი კოჭა მიერთებულია 240 ვოლტი კვების წყაროსთან. როგორი იქნება ძაბვა მეორად კოჭზე?",
+                text: "ტრანსფორმატორს გააჩნია გადაცემის კოეფიციენტი 20 : 1. პირველადი კოჭა მიერთებულია 240 ვოლტი კვების წყაროსთან. როგორი იქნება ძაბვა მეორად კოჭაზე?",
                 image: null,
                 answers: [
                     { key: "ა", text: "24 ვოლტი" },
@@ -325,7 +1080,7 @@
             },
             {
                 id: 91,
-                text: "5 ომიანი და 4 ომიანი წინააღმდეგობები დაკავშირებულია მიმდევრობით. რა იქნება მიღებული (ნაკრები) ელემენტის სრული წინააღმდეგობა:",
+                text: "5 ომიანი და 4 ომიანი წინაღობები დაკავშირებულია მიმდევრობით. რა იქნება მიღებული (ნაკრები) ელემენტის სრული წინაღობა:",
                 image: null,
                 answers: [
                     { key: "ა", text: "9 ომი" },
@@ -336,7 +1091,7 @@
             },
             {
                 id: 92,
-                text: "რამდენი 200 ომიანი წინააღმდეგობა უნდა ჩავრთოთ პარალელურად, რომ მივიღოთ 50 ომის მქონე ექვივალენტური წინააღმდეგობა?",
+                text: "რამდენი 200 ომიანი წინაღობა უნდა ჩავრთოთ პარალელურად, რომ მივიღოთ 50 ომის მქონე ექვივალენტი წინაღობა?",
                 image: null,
                 answers: [
                     { key: "ა", text: "5 ერთეული" },
@@ -369,7 +1124,7 @@
             },
             {
                 id: 95,
-                text: "როგორ იცვლება სპილენძის გამტარის წინააღმდეგობა ტემპერატურის მომატებისას?",
+                text: "როგორ იცვლება სპილენძის გამტარის წინაღობა ტემპერატურის მომატებისას?",
                 image: null,
                 answers: [
                     { key: "ა", text: "წინაღობა მცირდება" },
@@ -538,7 +1293,7 @@
                 image: null,
                 answers: [
                     { key: "ა", text: "დიდი კვეთის მქონე კაბელების გამოყენებით" },
-                    { key: "ბ", text: "ქსელური ფილტრების, ე.წ. „დრო ხელის“ და შესაბამისი კონსტრუქციების გამოყენებით" },
+                    { key: "ბ", text: "ქსელური ფილტრების, ე.წ. „ეკრანის“ და შესაბამისი კონსტრუქციების გამოყენებით" },
                     { key: "გ", text: "ვიყენებთ ელექტრული კვების წყაროდ აკუმულატორებს (ბატარეებს)" }
                 ],
                 correct: "ბ"
@@ -589,257 +1344,127 @@
             }
         ];
 
-        let currentUser = null;
-        let examQuestions = [];
-        let currentQuestionIndex = 0;
-        let userAnswers = {};
-        let timerInterval = null;
-        let timeLeft = 45 * 60;
-        let examHistory = [];
-        let isPracticeMode = false;
+        // მომხმარებლის მიერ ხელით მონიშნული პასუხები (მხოლოდ სესიის განმავლობაში)
+        const userMarked = {};
 
-        const screens = {
-            auth: document.getElementById('auth-screen'),
-            dash: document.getElementById('dashboard-screen'),
-            exam: document.getElementById('exam-screen'),
-            result: document.getElementById('result-screen')
-        };
+        // გვერდზე ელემენტების დინამიკური გენერირება
+        const questionsListContainer = document.getElementById('questions-list');
+        const searchInput = document.getElementById('search-input');
+        const backToTopBtn = document.getElementById('back-to-top');
 
-        function showScreen(screenId) {
-            Object.values(screens).forEach(scr => scr.classList.add('hidden'));
-            screens[screenId].classList.remove('hidden');
-        }
+        function renderAllQuestions(filterText = '') {
+            questionsListContainer.innerHTML = '';
 
-        document.getElementById('register-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('reg-name').value.trim();
-            const callsign = document.getElementById('reg-callsign').value.trim();
+            const filtered = fullDatabase.filter(q => {
+                const searchLower = filterText.toLowerCase();
+                const matchesText = q.text.toLowerCase().includes(searchLower);
+                const matchesId = q.id.toString() === searchLower;
+                const matchesAnswers = q.answers.some(a => a.text.toLowerCase().includes(searchLower));
+                return matchesText || matchesId || matchesAnswers;
+            });
 
-            currentUser = { name, callsign };
-
-            document.getElementById('badge-name').textContent = name;
-            if(callsign) {
-                document.getElementById('badge-callsign').textContent = callsign.toUpperCase();
-                document.getElementById('badge-callsign').classList.remove('hidden');
-            } else {
-                document.getElementById('badge-callsign').classList.add('hidden');
-            }
-            document.getElementById('user-badge').classList.remove('hidden');
-            document.getElementById('dash-username').textContent = name;
-            
-            updateDashboardStats();
-            showScreen('dash');
-        });
-
-        document.getElementById('btn-start-exam').addEventListener('click', () => startExamFlow(false));
-        document.getElementById('btn-start-practice').addEventListener('click', () => startExamFlow(true));
-        document.getElementById('btn-retry-immediately').addEventListener('click', () => startExamFlow(false));
-
-        function startExamFlow(practiceMode) {
-            isPracticeMode = practiceMode;
-            userAnswers = {};
-            currentQuestionIndex = 0;
-
-            if (isPracticeMode) {
-                // გადამეორების რეჟიმი: მიმდევრობით გაუშვას 1-დან 114-მდე ყველა კითხვა
-                examQuestions = [...questionsDatabase];
-                document.getElementById('timer-box').classList.add('hidden');
-                document.getElementById('pulsing-dot').classList.replace('bg-amber-500', 'bg-blue-500');
-                clearInterval(timerInterval);
-            } else {
-                // საგამოცდო რეჟიმი: 30 შემთხვევითი კითხვა
-                examQuestions = [...questionsDatabase].sort(() => 0.5 - Math.random()).slice(0, 30);
-                document.getElementById('timer-box').classList.remove('hidden');
-                document.getElementById('pulsing-dot').classList.replace('bg-blue-500', 'bg-amber-500');
-                timeLeft = 45 * 60;
-                startTimer();
+            if (filtered.length === 0) {
+                questionsListContainer.innerHTML = `
+                    <div class="glass-card rounded-2xl p-8 text-center text-gray-500">
+                        🔍 შესაბამისი კითხვა ვერ მოიძებნა.
+                    </div>
+                `;
+                return;
             }
 
-            renderQuestion();
-            showScreen('exam');
-        }
+            filtered.forEach(q => {
+                const card = document.createElement('div');
+                card.className = "glass-card rounded-2xl p-6 shadow-xl space-y-4 hover:border-gray-700 transition-colors";
 
-        function startTimer() {
-            clearInterval(timerInterval);
-            updateTimerDisplay();
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                updateTimerDisplay();
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    finishExam();
+                let imageHtml = '';
+                if (q.image) {
+                    imageHtml = `
+                        <div class="bg-slate-900/40 p-4 rounded-xl border border-gray-800 text-center">
+                            <img src="${q.image}" alt="საკითხავი სურათი" class="mx-auto rounded-lg max-h-48 object-contain">
+                        </div>
+                    `;
                 }
-            }, 1000);
-        }
 
-        function updateTimerDisplay() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            document.getElementById('timer').textContent = 
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
+                const effectiveCorrect = q.correct || userMarked[q.id] || null;
 
-        function renderQuestion() {
-            const q = examQuestions[currentQuestionIndex];
-            
-            document.getElementById('question-progress').textContent = `${currentQuestionIndex + 1}/${examQuestions.length}`;
-            document.getElementById('question-text').textContent = `${q.id}. ${q.text}`;
+                let answersHtml = '<div class="space-y-2.5">';
+                q.answers.forEach(ans => {
+                    const isCorrect = ans.key === effectiveCorrect;
+                    const isUserMarked = !q.correct && userMarked[q.id] === ans.key;
+                    const ansStyle = isCorrect
+                        ? (isUserMarked
+                            ? 'bg-sky-500/10 border-sky-500/80 text-sky-300 font-medium'
+                            : 'bg-emerald-500/10 border-emerald-500/80 text-emerald-300 font-medium green-glow')
+                        : 'bg-gray-900/30 border-gray-800/80 text-gray-400 hover:border-gray-700 cursor-pointer';
 
-            const imgContainer = document.getElementById('question-image-container');
-            const imgEl = document.getElementById('question-image');
-            if (q.image) {
-                imgEl.src = q.image;
-                imgContainer.classList.remove('hidden');
-            } else {
-                imgContainer.classList.add('hidden');
-            }
+                    const badgeStyle = isCorrect
+                        ? (isUserMarked ? 'bg-sky-500 text-slate-950' : 'bg-emerald-500 text-slate-950')
+                        : 'bg-gray-800 text-gray-500';
 
-            const answersContainer = document.getElementById('answers-container');
-            answersContainer.innerHTML = '';
+                    const clickAttr = q.correct ? '' : `data-qid="${q.id}" data-key="${ans.key}"`;
 
-            q.answers.forEach(ans => {
-                const isSelected = userAnswers[q.id] === ans.key;
-                
-                const btn = document.createElement('button');
-                btn.className = `w-full text-left p-4 rounded-xl border transition-all flex items-center gap-3 ${
-                    isSelected 
-                    ? (isPracticeMode ? 'bg-blue-500/20 border-blue-500 text-white font-medium blue-glow' : 'bg-amber-500/20 border-amber-500 text-white font-medium yellow-glow') 
-                    : 'bg-gray-900/40 border-gray-800 hover:border-gray-700 text-gray-300'
-                }`;
+                    answersHtml += `
+                        <div class="flex items-center gap-3 p-3.5 rounded-xl border ${ansStyle}" ${clickAttr}>
+                            <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${badgeStyle}">
+                                ${ans.key}
+                            </span>
+                            <span class="text-sm md:text-base">${ans.text}</span>
+                        </div>
+                    `;
+                });
+                answersHtml += '</div>';
 
-                btn.innerHTML = `
-                    <span class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
-                        isSelected 
-                        ? (isPracticeMode ? 'bg-blue-500 text-white' : 'bg-amber-500 text-slate-950') 
-                        : 'bg-gray-800 text-gray-400'
-                    }">${ans.key}</span>
-                    <span class="text-sm md:text-base">${ans.text}</span>
+                let noteHtml = '';
+                if (!q.correct) {
+                    noteHtml = `<p class="text-xs text-amber-400/80">⚠️ სწორი პასუხი PDF-ში მონიშნული არ არის — დააჭირეთ სასურველ ვარიანტს მის მოსანიშნად.</p>`;
+                }
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start gap-4">
+                        <h3 class="font-bold text-white text-base md:text-lg leading-relaxed">
+                            <span class="text-emerald-400 font-mono text-lg mr-1.5">#${q.id}</span>
+                            ${q.text}
+                        </h3>
+                    </div>
+                    ${imageHtml}
+                    ${answersHtml}
+                    ${noteHtml}
                 `;
 
-                btn.onclick = () => {
-                    userAnswers[q.id] = ans.key;
-                    renderQuestion();
-                };
-
-                answersContainer.appendChild(btn);
+                questionsListContainer.appendChild(card);
             });
 
-            document.getElementById('btn-prev').disabled = currentQuestionIndex === 0;
-            document.getElementById('btn-prev').style.opacity = currentQuestionIndex === 0 ? '0.5' : '1';
-
-            const nextBtn = document.getElementById('btn-next');
-            if (currentQuestionIndex === examQuestions.length - 1) {
-                nextBtn.innerHTML = isPracticeMode ? '🏁 დასრულება' : '🏁 გამოცდის დასრულება';
-                nextBtn.className = "px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold rounded-xl transition-colors";
-            } else {
-                nextBtn.innerHTML = 'შემდეგი ➔';
-                nextBtn.className = isPracticeMode 
-                    ? "px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition-colors"
-                    : "px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl transition-colors";
-            }
-        }
-
-        document.getElementById('btn-prev').addEventListener('click', () => {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                renderQuestion();
-            }
-        });
-
-        document.getElementById('btn-next').addEventListener('click', () => {
-            if (currentQuestionIndex < examQuestions.length - 1) {
-                currentQuestionIndex++;
-                renderQuestion();
-            } else {
-                finishExam();
-            }
-        });
-
-        document.getElementById('btn-finish-now').addEventListener('click', () => {
-            if(confirm("დავასრულოთ და დავბრუნდეთ პანელზე?")) {
-                clearInterval(timerInterval);
-                showScreen('dash');
-            }
-        });
-
-        function finishExam() {
-            clearInterval(timerInterval);
-            
-            let score = 0;
-            examQuestions.forEach(q => {
-                if (userAnswers[q.id] === q.correct) {
-                    score++;
-                }
+            // ხელით მონიშვნის ივენთები
+            questionsListContainer.querySelectorAll('[data-qid]').forEach(el => {
+                el.addEventListener('click', () => {
+                    const qid = el.getAttribute('data-qid');
+                    const key = el.getAttribute('data-key');
+                    userMarked[qid] = key;
+                    renderAllQuestions(searchInput.value);
+                });
             });
-
-            const percent = Math.round((score / examQuestions.length) * 100);
-            const passed = percent >= 60; // 60% გამსვლელი ქულა
-
-            if (!isPracticeMode) {
-                const dateStr = new Date().toLocaleDateString('ka-GE');
-                examHistory.unshift({
-                    score,
-                    total: examQuestions.length,
-                    date: dateStr,
-                    passed
-                });
-            }
-
-            const iconBox = document.getElementById('result-icon');
-            const statusText = document.getElementById('result-status');
-            
-            if (passed) {
-                iconBox.className = "w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
-                iconBox.innerHTML = '🏆';
-                statusText.textContent = "ტესტირება წარმატებით გაიარეთ! 🎉";
-                statusText.className = "text-lg font-semibold text-emerald-400 mb-6";
-            } else {
-                iconBox.className = "w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 bg-red-500/20 text-red-400 border border-red-500/30";
-                iconBox.innerHTML = '❌';
-                statusText.textContent = "სამწუხაროდ, ზღვარი ვერ გადალახეთ.";
-                statusText.className = "text-lg font-semibold text-red-400 mb-6";
-            }
-
-            document.getElementById('result-score').textContent = `${score} / ${examQuestions.length}`;
-            showScreen('result');
         }
 
-        document.getElementById('btn-back-to-dash').addEventListener('click', () => {
-            updateDashboardStats();
-            showScreen('dash');
+        // ძებნის ივენთი
+        searchInput.addEventListener('input', (e) => {
+            renderAllQuestions(e.target.value);
         });
 
-        function updateDashboardStats() {
-            document.getElementById('stat-count').textContent = examHistory.length;
-            
-            let bestScore = 0;
-            if(examHistory.length > 0) {
-                bestScore = Math.max(...examHistory.map(h => h.score));
-            }
-            document.getElementById('stat-best').textContent = `${bestScore}/${examHistory[0] ? examHistory[0].total : 30}`;
-
-            const historyList = document.getElementById('history-list');
-            if(examHistory.length === 0) {
-                historyList.innerHTML = `<p class="text-gray-500 text-sm">ისტორია ცარიელია. გაიარეთ პირველი ტესტი!</p>`;
+        // Back to Top ლოგიკა
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                backToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
             } else {
-                historyList.innerHTML = '';
-                examHistory.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = "flex justify-between items-center bg-gray-900/50 border border-gray-850 p-3 rounded-xl text-sm";
-                    div.innerHTML = `
-                        <div class="flex items-center gap-3">
-                            <span class="w-2.5 h-2.5 rounded-full ${item.passed ? 'bg-emerald-500' : 'bg-red-500'}"></span>
-                            <span class="font-bold text-white">${item.score} / ${item.total}</span>
-                            <span class="text-gray-500 text-xs">${item.date}</span>
-                        </div>
-                        <span class="px-2.5 py-1 rounded text-xs font-semibold ${
-                            item.passed ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'
-                        }">${item.passed ? 'ჩაბარდა' : 'ჩაიჭრა'}</span>
-                    `;
-                    historyList.appendChild(div);
-                });
+                backToTopBtn.classList.add('opacity-0', 'pointer-events-none');
             }
-        }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // საწყისი ჩატვირთვა
+        renderAllQuestions();
     </script>
 </body>
 </html>
