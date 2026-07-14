@@ -31,9 +31,184 @@
         #back-to-top {
             transition: all 0.3s ease;
         }
+
+        /* ავტორიზაციის ეკრანი */
+        #login-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background: #05070d;
+        }
+        #login-bg-wrap {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+        #login-bg-wrap svg {
+            width: 100%;
+            height: 100%;
+            filter: blur(7px) brightness(0.55) saturate(1.05);
+            transform: scale(1.08);
+        }
+        #login-bg-wrap::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 35%, rgba(5,8,13,0.35), rgba(5,8,13,0.88) 75%);
+        }
+        #login-card {
+            position: relative;
+            z-index: 5;
+            width: 100%;
+            max-width: 380px;
+            animation: loginFadeIn 0.5s ease;
+        }
+        @keyframes loginFadeIn {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .app-hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body class="text-gray-200 min-h-screen flex flex-col justify-between">
+
+    <!-- ავტორიზაციის ეკრანი -->
+    <div id="login-overlay">
+        <div id="login-bg-wrap">
+            <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#050810"/>
+                        <stop offset="60%" stop-color="#0a0f1e"/>
+                        <stop offset="100%" stop-color="#151b16"/>
+                    </linearGradient>
+                    <linearGradient id="deskGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#2b1d12"/>
+                        <stop offset="100%" stop-color="#140d08"/>
+                    </linearGradient>
+                    <linearGradient id="radioBody" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stop-color="#3f4854"/>
+                        <stop offset="100%" stop-color="#181d24"/>
+                    </linearGradient>
+                    <radialGradient id="glow" cx="50%" cy="35%" r="65%">
+                        <stop offset="0%" stop-color="#10b98122"/>
+                        <stop offset="100%" stop-color="#10b98100"/>
+                    </radialGradient>
+                </defs>
+
+                <rect width="800" height="450" fill="url(#bgGrad)"/>
+                <circle cx="400" cy="140" r="260" fill="url(#glow)"/>
+
+                <!-- desk surface -->
+                <rect x="0" y="330" width="800" height="120" fill="url(#deskGrad)"/>
+                <rect x="0" y="330" width="800" height="4" fill="#3a2a18"/>
+
+                <!-- base transceiver box (back left) -->
+                <g transform="translate(70,235)">
+                    <rect x="0" y="0" width="170" height="95" rx="8" fill="url(#radioBody)" stroke="#0b0e12" stroke-width="2"/>
+                    <rect x="12" y="14" width="100" height="34" rx="3" fill="#0a2318" stroke="#1f7a52" stroke-width="1.5"/>
+                    <text x="18" y="36" font-family="monospace" font-size="16" fill="#34d399">144.850</text>
+                    <circle cx="140" cy="30" r="12" fill="#20262e" stroke="#4b5563" stroke-width="2"/>
+                    <circle cx="140" cy="30" r="2.5" fill="#94a3b8"/>
+                    <rect x="12" y="58" width="146" height="8" rx="4" fill="#12161b"/>
+                    <rect x="12" y="72" width="146" height="8" rx="4" fill="#12161b"/>
+                    <circle cx="28" cy="60" r="4" fill="#374151"/>
+                    <circle cx="44" cy="60" r="4" fill="#374151"/>
+                    <circle cx="60" cy="60" r="4" fill="#374151"/>
+                    <circle cx="76" cy="60" r="4" fill="#374151"/>
+                </g>
+
+                <!-- handheld radio 1 -->
+                <g transform="translate(300,190) rotate(-6)">
+                    <line x1="18" y1="-90" x2="8" y2="0" stroke="#9ca3af" stroke-width="4" stroke-linecap="round"/>
+                    <rect x="0" y="0" width="46" height="140" rx="10" fill="url(#radioBody)" stroke="#0b0e12" stroke-width="2"/>
+                    <rect x="8" y="14" width="30" height="20" rx="3" fill="#0a2318" stroke="#1f7a52" stroke-width="1.2"/>
+                    <circle cx="23" cy="55" r="9" fill="#20262e" stroke="#4b5563" stroke-width="2"/>
+                    <rect x="6" y="72" width="34" height="4" rx="2" fill="#0f1216"/>
+                    <rect x="6" y="80" width="34" height="4" rx="2" fill="#0f1216"/>
+                    <rect x="6" y="88" width="34" height="4" rx="2" fill="#0f1216"/>
+                    <rect x="10" y="106" width="26" height="26" rx="4" fill="#12161b"/>
+                    <circle cx="14" cy="112" r="3" fill="#374151"/>
+                    <circle cx="23" cy="112" r="3" fill="#374151"/>
+                    <circle cx="32" cy="112" r="3" fill="#374151"/>
+                    <circle cx="14" cy="122" r="3" fill="#374151"/>
+                    <circle cx="23" cy="122" r="3" fill="#374151"/>
+                    <circle cx="32" cy="122" r="3" fill="#374151"/>
+                </g>
+
+                <!-- handheld radio 2 -->
+                <g transform="translate(400,175) rotate(4)">
+                    <line x1="22" y1="-100" x2="12" y2="0" stroke="#9ca3af" stroke-width="4" stroke-linecap="round"/>
+                    <rect x="0" y="0" width="50" height="150" rx="10" fill="url(#radioBody)" stroke="#0b0e12" stroke-width="2"/>
+                    <rect x="9" y="16" width="32" height="22" rx="3" fill="#0a2318" stroke="#1f7a52" stroke-width="1.2"/>
+                    <circle cx="25" cy="60" r="10" fill="#20262e" stroke="#4b5563" stroke-width="2"/>
+                    <rect x="7" y="80" width="36" height="4" rx="2" fill="#0f1216"/>
+                    <rect x="7" y="88" width="36" height="4" rx="2" fill="#0f1216"/>
+                    <rect x="7" y="96" width="36" height="4" rx="2" fill="#0f1216"/>
+                    <rect x="11" y="115" width="28" height="28" rx="4" fill="#12161b"/>
+                    <circle cx="17" cy="121" r="3" fill="#374151"/>
+                    <circle cx="25" cy="121" r="3" fill="#374151"/>
+                    <circle cx="33" cy="121" r="3" fill="#374151"/>
+                    <circle cx="17" cy="131" r="3" fill="#374151"/>
+                    <circle cx="25" cy="131" r="3" fill="#374151"/>
+                    <circle cx="33" cy="131" r="3" fill="#374151"/>
+                </g>
+
+                <!-- handheld radio 3 (lying on desk) -->
+                <g transform="translate(560,330) rotate(90)">
+                    <line x1="18" y1="-80" x2="8" y2="4" stroke="#9ca3af" stroke-width="4" stroke-linecap="round"/>
+                    <rect x="0" y="0" width="42" height="128" rx="9" fill="url(#radioBody)" stroke="#0b0e12" stroke-width="2"/>
+                    <rect x="7" y="13" width="28" height="18" rx="3" fill="#0a2318" stroke="#1f7a52" stroke-width="1.2"/>
+                    <circle cx="21" cy="50" r="8" fill="#20262e" stroke="#4b5563" stroke-width="2"/>
+                    <rect x="5" y="66" width="32" height="4" rx="2" fill="#0f1216"/>
+                    <rect x="5" y="74" width="32" height="4" rx="2" fill="#0f1216"/>
+                    <rect x="9" y="96" width="24" height="22" rx="4" fill="#12161b"/>
+                </g>
+
+                <!-- სავარძები -->
+                <ellipse cx="322" cy="335" rx="34" ry="8" fill="#000000" opacity="0.35"/>
+                <ellipse cx="424" cy="335" rx="36" ry="8" fill="#000000" opacity="0.35"/>
+                <ellipse cx="600" cy="345" rx="60" ry="10" fill="#000000" opacity="0.3"/>
+                <ellipse cx="155" cy="333" rx="85" ry="10" fill="#000000" opacity="0.3"/>
+            </svg>
+        </div>
+
+        <div id="login-card" class="glass-card rounded-2xl p-7 shadow-2xl">
+            <div class="text-center mb-6">
+                <div class="bg-emerald-500 text-slate-950 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl font-bold shadow-lg shadow-emerald-500/30 mx-auto mb-3">
+                    📻
+                </div>
+                <h2 class="text-xl font-black text-white">ავტორიზაცია</h2>
+                <p class="text-xs text-gray-400 mt-1">4L5FPV Exam Portal — B კატეგორია</p>
+            </div>
+
+            <form id="login-form" class="space-y-3.5">
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1.5">სახელი</label>
+                    <input type="text" id="login-firstname" required placeholder="მაგ: გიორგი"
+                        class="w-full bg-gray-900/90 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1.5">გვარი</label>
+                    <input type="text" id="login-lastname" required placeholder="მაგ: მაისურაძე"
+                        class="w-full bg-gray-900/90 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all">
+                </div>
+                <p id="login-error" class="text-xs text-red-400 hidden">გთხოვთ შეავსოთ ორივე ველი.</p>
+                <button type="submit"
+                    class="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold rounded-xl px-4 py-3 text-sm transition-all active:scale-95 shadow-lg shadow-emerald-500/20">
+                    შესვლა
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="app-content" class="app-hidden text-gray-200 min-h-screen flex flex-col justify-between w-full">
 
     <!-- ზედა პანელი -->
     <header class="sticky top-0 z-50 w-full glass-card border-b border-gray-800/80 px-4 py-4">
@@ -52,6 +227,11 @@
             <div class="w-full md:w-80 relative">
                 <input type="text" id="search-input" placeholder="🔍 ჩაწერეთ საძიებო სიტყვა ან ნომერი..."
                     class="w-full bg-gray-900/90 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all">
+            </div>
+
+            <div class="flex items-center gap-3 text-xs text-gray-400 whitespace-nowrap">
+                <span>👤 <span id="user-greeting" class="text-emerald-400 font-semibold"></span></span>
+                <button id="logout-btn" class="text-gray-500 hover:text-red-400 underline underline-offset-2 transition-colors">გასვლა</button>
             </div>
         </div>
     </header>
@@ -82,6 +262,8 @@
     <button id="back-to-top" class="fixed bottom-6 right-6 bg-emerald-500 hover:bg-emerald-600 text-slate-950 p-3.5 rounded-full shadow-lg opacity-0 pointer-events-none hover:scale-110 active:scale-95 transition-all">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
     </button>
+
+    </div><!-- /#app-content -->
 
     <script>
         // 1-დან 114-მდე სრული ბაზა (PDF-ის რეალური ნუმერაციის მიხედვით)
@@ -1158,7 +1340,7 @@
             {
                 id: 98,
                 text: "სურათზე ნაჩვენებია მრავალელემენტიანი (იაგის) ანტენა. ელემენტი 1 - ეს არის:",
-                image: "https://i.imgur.com/gK9q9Rz.png",
+                image: "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjQwIDI2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iNjQwIiBoZWlnaHQ9IjI2MCIgZmlsbD0iIzBmMTcyYSIvPgogIDwhLS0gYm9vbSAtLT4KICA8bGluZSB4MT0iNjAiIHkxPSIxNTAiIHgyPSI1ODAiIHkyPSIxNTAiIHN0cm9rZT0iIzk0YTNiOCIgc3Ryb2tlLXdpZHRoPSI2IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8IS0tIHN1cHBvcnQgbW91bnQgLS0+CiAgPHJlY3QgeD0iMjkwIiB5PSIxNTAiIHdpZHRoPSIyMCIgaGVpZ2h0PSI3MCIgZmlsbD0iIzY0NzQ4YiIvPgoKICA8IS0tIEVsZW1lbnQgMTogUmVmbGVjdG9yIChsb25nZXN0LCBsZWZ0bW9zdCkgLS0+CiAgPGxpbmUgeDE9IjEyMCIgeTE9IjYwIiB4Mj0iMTIwIiB5Mj0iMjQwIiBzdHJva2U9IiMzNGQzOTkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGNpcmNsZSBjeD0iMTIwIiBjeT0iMTUwIiByPSI2IiBmaWxsPSIjMGYxNzJhIiBzdHJva2U9IiMzNGQzOTkiIHN0cm9rZS13aWR0aD0iMyIvPgogIDx0ZXh0IHg9IjEyMCIgeT0iNDUiIGZpbGw9IiNlMmU4ZjAiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSJib2xkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiPjE8L3RleHQ+CgogIDwhLS0gRWxlbWVudCAyOiBEcml2ZW4gZWxlbWVudCAvIFZpYnJhdG9yIC0tPgogIDxsaW5lIHgxPSIyNTAiIHkxPSI3NSIgeDI9IjI1MCIgeTI9IjIyNSIgc3Ryb2tlPSIjZmJiZjI0IiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxjaXJjbGUgY3g9IjI1MCIgY3k9IjE1MCIgcj0iMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZiYmYyNCIgc3Ryb2tlLXdpZHRoPSIzIi8+CiAgPHRleHQgeD0iMjUwIiB5PSI2MCIgZmlsbD0iI2UyZThmMCIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiI+MjwvdGV4dD4KCiAgPCEtLSBmZWVkbGluZSBmcm9tIGRyaXZlbiBlbGVtZW50IC0tPgogIDxsaW5lIHgxPSIyNTAiIHkxPSIyMjUiIHgyPSIzODAiIHkyPSIyMjUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtZGFzaGFycmF5PSI2LDUiLz4KICA8Y2lyY2xlIGN4PSIzODAiIGN5PSIyMjUiIHI9IjgiIGZpbGw9IiM2NDc0OGIiLz4KICA8dGV4dCB4PSI0MDAiIHk9IjIzMCIgZmlsbD0iIzk0YTNiOCIgZm9udC1zaXplPSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIj7hg5nhg5Dhg5Hhg5Thg5rhg5g8L3RleHQ+CgogIDwhLS0gRWxlbWVudCAzOiAxc3QgRGlyZWN0b3IgLS0+CiAgPGxpbmUgeDE9IjM4MCIgeTE9Ijk1IiB4Mj0iMzgwIiB5Mj0iMjA1IiBzdHJva2U9IiM2MGE1ZmEiIHN0cm9rZS13aWR0aD0iNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMzgwIiB5PSI4MCIgZmlsbD0iI2UyZThmMCIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiI+MzwvdGV4dD4KCiAgPCEtLSBFbGVtZW50IDQ6IDJuZCBEaXJlY3RvciAoc2hvcnRlc3QsIHJpZ2h0bW9zdCkgLS0+CiAgPGxpbmUgeDE9IjUwMCIgeTE9IjEwNSIgeDI9IjUwMCIgeTI9IjE5NSIgc3Ryb2tlPSIjNjBhNWZhIiBzdHJva2Utd2lkdGg9IjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDx0ZXh0IHg9IjUwMCIgeT0iOTAiIGZpbGw9IiNlMmU4ZjAiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSJib2xkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiPjQ8L3RleHQ+CgogIDwhLS0gZGlyZWN0aW9uIGFycm93IC0tPgogIDxsaW5lIHgxPSI1NDAiIHkxPSIxNTAiIHgyPSI2MDAiIHkyPSIxNTAiIHN0cm9rZT0iI2Y4NzE3MSIgc3Ryb2tlLXdpZHRoPSIzIiBtYXJrZXItZW5kPSJ1cmwoI2Fycm93KSIvPgogIDxkZWZzPgogICAgPG1hcmtlciBpZD0iYXJyb3ciIG1hcmtlcldpZHRoPSIxMCIgbWFya2VySGVpZ2h0PSIxMCIgcmVmWD0iNiIgcmVmWT0iMyIgb3JpZW50PSJhdXRvIiBtYXJrZXJVbml0cz0ic3Ryb2tlV2lkdGgiPgogICAgICA8cGF0aCBkPSJNMCwwIEw2LDMgTDAsNiBaIiBmaWxsPSIjZjg3MTcxIi8+CiAgICA8L21hcmtlcj4KICA8L2RlZnM+CiAgPHRleHQgeD0iNjA1IiB5PSIxNDUiIGZpbGw9IiNmODcxNzEiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiI+4YOS4YOQ4YOb4YOd4YOh4YOu4YOY4YOV4YOU4YOR4YOQPC90ZXh0Pgo8L3N2Zz4K",
                 answers: [
                     { key: "ა", text: "ამრეკლი (რეფლექტორი)" },
                     { key: "ბ", text: "გამსხივებელი (ვიბრატორი)" },
@@ -1169,7 +1351,7 @@
             {
                 id: 99,
                 text: "სურათზე ნაჩვენებია მრავალელემენტიანი (იაგის) ანტენა. ელემენტი 2 - ეს არის:",
-                image: "https://i.imgur.com/gK9q9Rz.png",
+                image: "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjQwIDI2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iNjQwIiBoZWlnaHQ9IjI2MCIgZmlsbD0iIzBmMTcyYSIvPgogIDwhLS0gYm9vbSAtLT4KICA8bGluZSB4MT0iNjAiIHkxPSIxNTAiIHgyPSI1ODAiIHkyPSIxNTAiIHN0cm9rZT0iIzk0YTNiOCIgc3Ryb2tlLXdpZHRoPSI2IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8IS0tIHN1cHBvcnQgbW91bnQgLS0+CiAgPHJlY3QgeD0iMjkwIiB5PSIxNTAiIHdpZHRoPSIyMCIgaGVpZ2h0PSI3MCIgZmlsbD0iIzY0NzQ4YiIvPgoKICA8IS0tIEVsZW1lbnQgMTogUmVmbGVjdG9yIChsb25nZXN0LCBsZWZ0bW9zdCkgLS0+CiAgPGxpbmUgeDE9IjEyMCIgeTE9IjYwIiB4Mj0iMTIwIiB5Mj0iMjQwIiBzdHJva2U9IiMzNGQzOTkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGNpcmNsZSBjeD0iMTIwIiBjeT0iMTUwIiByPSI2IiBmaWxsPSIjMGYxNzJhIiBzdHJva2U9IiMzNGQzOTkiIHN0cm9rZS13aWR0aD0iMyIvPgogIDx0ZXh0IHg9IjEyMCIgeT0iNDUiIGZpbGw9IiNlMmU4ZjAiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSJib2xkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiPjE8L3RleHQ+CgogIDwhLS0gRWxlbWVudCAyOiBEcml2ZW4gZWxlbWVudCAvIFZpYnJhdG9yIC0tPgogIDxsaW5lIHgxPSIyNTAiIHkxPSI3NSIgeDI9IjI1MCIgeTI9IjIyNSIgc3Ryb2tlPSIjZmJiZjI0IiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxjaXJjbGUgY3g9IjI1MCIgY3k9IjE1MCIgcj0iMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZiYmYyNCIgc3Ryb2tlLXdpZHRoPSIzIi8+CiAgPHRleHQgeD0iMjUwIiB5PSI2MCIgZmlsbD0iI2UyZThmMCIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiI+MjwvdGV4dD4KCiAgPCEtLSBmZWVkbGluZSBmcm9tIGRyaXZlbiBlbGVtZW50IC0tPgogIDxsaW5lIHgxPSIyNTAiIHkxPSIyMjUiIHgyPSIzODAiIHkyPSIyMjUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtZGFzaGFycmF5PSI2LDUiLz4KICA8Y2lyY2xlIGN4PSIzODAiIGN5PSIyMjUiIHI9IjgiIGZpbGw9IiM2NDc0OGIiLz4KICA8dGV4dCB4PSI0MDAiIHk9IjIzMCIgZmlsbD0iIzk0YTNiOCIgZm9udC1zaXplPSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIj7hg5nhg5Dhg5Hhg5Thg5rhg5g8L3RleHQ+CgogIDwhLS0gRWxlbWVudCAzOiAxc3QgRGlyZWN0b3IgLS0+CiAgPGxpbmUgeDE9IjM4MCIgeTE9Ijk1IiB4Mj0iMzgwIiB5Mj0iMjA1IiBzdHJva2U9IiM2MGE1ZmEiIHN0cm9rZS13aWR0aD0iNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMzgwIiB5PSI4MCIgZmlsbD0iI2UyZThmMCIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiI+MzwvdGV4dD4KCiAgPCEtLSBFbGVtZW50IDQ6IDJuZCBEaXJlY3RvciAoc2hvcnRlc3QsIHJpZ2h0bW9zdCkgLS0+CiAgPGxpbmUgeDE9IjUwMCIgeTE9IjEwNSIgeDI9IjUwMCIgeTI9IjE5NSIgc3Ryb2tlPSIjNjBhNWZhIiBzdHJva2Utd2lkdGg9IjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDx0ZXh0IHg9IjUwMCIgeT0iOTAiIGZpbGw9IiNlMmU4ZjAiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSJib2xkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiPjQ8L3RleHQ+CgogIDwhLS0gZGlyZWN0aW9uIGFycm93IC0tPgogIDxsaW5lIHgxPSI1NDAiIHkxPSIxNTAiIHgyPSI2MDAiIHkyPSIxNTAiIHN0cm9rZT0iI2Y4NzE3MSIgc3Ryb2tlLXdpZHRoPSIzIiBtYXJrZXItZW5kPSJ1cmwoI2Fycm93KSIvPgogIDxkZWZzPgogICAgPG1hcmtlciBpZD0iYXJyb3ciIG1hcmtlcldpZHRoPSIxMCIgbWFya2VySGVpZ2h0PSIxMCIgcmVmWD0iNiIgcmVmWT0iMyIgb3JpZW50PSJhdXRvIiBtYXJrZXJVbml0cz0ic3Ryb2tlV2lkdGgiPgogICAgICA8cGF0aCBkPSJNMCwwIEw2LDMgTDAsNiBaIiBmaWxsPSIjZjg3MTcxIi8+CiAgICA8L21hcmtlcj4KICA8L2RlZnM+CiAgPHRleHQgeD0iNjA1IiB5PSIxNDUiIGZpbGw9IiNmODcxNzEiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiI+4YOS4YOQ4YOb4YOd4YOh4YOu4YOY4YOV4YOU4YOR4YOQPC90ZXh0Pgo8L3N2Zz4K",
                 answers: [
                     { key: "ა", text: "გამსხივებელი (ვიბრატორი)" },
                     { key: "ბ", text: "მე-2 მიმართველი (დირექტორი)" },
@@ -1180,7 +1362,7 @@
             {
                 id: 100,
                 text: "სურათზე ნაჩვენებია მრავალელემენტიანი (იაგის) ანტენა. ელემენტი 3 - ეს არის:",
-                image: "https://i.imgur.com/gK9q9Rz.png",
+                image: "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjQwIDI2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iNjQwIiBoZWlnaHQ9IjI2MCIgZmlsbD0iIzBmMTcyYSIvPgogIDwhLS0gYm9vbSAtLT4KICA8bGluZSB4MT0iNjAiIHkxPSIxNTAiIHgyPSI1ODAiIHkyPSIxNTAiIHN0cm9rZT0iIzk0YTNiOCIgc3Ryb2tlLXdpZHRoPSI2IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8IS0tIHN1cHBvcnQgbW91bnQgLS0+CiAgPHJlY3QgeD0iMjkwIiB5PSIxNTAiIHdpZHRoPSIyMCIgaGVpZ2h0PSI3MCIgZmlsbD0iIzY0NzQ4YiIvPgoKICA8IS0tIEVsZW1lbnQgMTogUmVmbGVjdG9yIChsb25nZXN0LCBsZWZ0bW9zdCkgLS0+CiAgPGxpbmUgeDE9IjEyMCIgeTE9IjYwIiB4Mj0iMTIwIiB5Mj0iMjQwIiBzdHJva2U9IiMzNGQzOTkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGNpcmNsZSBjeD0iMTIwIiBjeT0iMTUwIiByPSI2IiBmaWxsPSIjMGYxNzJhIiBzdHJva2U9IiMzNGQzOTkiIHN0cm9rZS13aWR0aD0iMyIvPgogIDx0ZXh0IHg9IjEyMCIgeT0iNDUiIGZpbGw9IiNlMmU4ZjAiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSJib2xkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiPjE8L3RleHQ+CgogIDwhLS0gRWxlbWVudCAyOiBEcml2ZW4gZWxlbWVudCAvIFZpYnJhdG9yIC0tPgogIDxsaW5lIHgxPSIyNTAiIHkxPSI3NSIgeDI9IjI1MCIgeTI9IjIyNSIgc3Ryb2tlPSIjZmJiZjI0IiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxjaXJjbGUgY3g9IjI1MCIgY3k9IjE1MCIgcj0iMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZiYmYyNCIgc3Ryb2tlLXdpZHRoPSIzIi8+CiAgPHRleHQgeD0iMjUwIiB5PSI2MCIgZmlsbD0iI2UyZThmMCIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiI+MjwvdGV4dD4KCiAgPCEtLSBmZWVkbGluZSBmcm9tIGRyaXZlbiBlbGVtZW50IC0tPgogIDxsaW5lIHgxPSIyNTAiIHkxPSIyMjUiIHgyPSIzODAiIHkyPSIyMjUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtZGFzaGFycmF5PSI2LDUiLz4KICA8Y2lyY2xlIGN4PSIzODAiIGN5PSIyMjUiIHI9IjgiIGZpbGw9IiM2NDc0OGIiLz4KICA8dGV4dCB4PSI0MDAiIHk9IjIzMCIgZmlsbD0iIzk0YTNiOCIgZm9udC1zaXplPSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIj7hg5nhg5Dhg5Hhg5Thg5rhg5g8L3RleHQ+CgogIDwhLS0gRWxlbWVudCAzOiAxc3QgRGlyZWN0b3IgLS0+CiAgPGxpbmUgeDE9IjM4MCIgeTE9Ijk1IiB4Mj0iMzgwIiB5Mj0iMjA1IiBzdHJva2U9IiM2MGE1ZmEiIHN0cm9rZS13aWR0aD0iNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMzgwIiB5PSI4MCIgZmlsbD0iI2UyZThmMCIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiI+MzwvdGV4dD4KCiAgPCEtLSBFbGVtZW50IDQ6IDJuZCBEaXJlY3RvciAoc2hvcnRlc3QsIHJpZ2h0bW9zdCkgLS0+CiAgPGxpbmUgeDE9IjUwMCIgeTE9IjEwNSIgeDI9IjUwMCIgeTI9IjE5NSIgc3Ryb2tlPSIjNjBhNWZhIiBzdHJva2Utd2lkdGg9IjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDx0ZXh0IHg9IjUwMCIgeT0iOTAiIGZpbGw9IiNlMmU4ZjAiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSJib2xkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiPjQ8L3RleHQ+CgogIDwhLS0gZGlyZWN0aW9uIGFycm93IC0tPgogIDxsaW5lIHgxPSI1NDAiIHkxPSIxNTAiIHgyPSI2MDAiIHkyPSIxNTAiIHN0cm9rZT0iI2Y4NzE3MSIgc3Ryb2tlLXdpZHRoPSIzIiBtYXJrZXItZW5kPSJ1cmwoI2Fycm93KSIvPgogIDxkZWZzPgogICAgPG1hcmtlciBpZD0iYXJyb3ciIG1hcmtlcldpZHRoPSIxMCIgbWFya2VySGVpZ2h0PSIxMCIgcmVmWD0iNiIgcmVmWT0iMyIgb3JpZW50PSJhdXRvIiBtYXJrZXJVbml0cz0ic3Ryb2tlV2lkdGgiPgogICAgICA8cGF0aCBkPSJNMCwwIEw2LDMgTDAsNiBaIiBmaWxsPSIjZjg3MTcxIi8+CiAgICA8L21hcmtlcj4KICA8L2RlZnM+CiAgPHRleHQgeD0iNjA1IiB5PSIxNDUiIGZpbGw9IiNmODcxNzEiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiI+4YOS4YOQ4YOb4YOd4YOh4YOu4YOY4YOV4YOU4YOR4YOQPC90ZXh0Pgo8L3N2Zz4K",
                 answers: [
                     { key: "ა", text: "გამსხივებელი (ვიბრატორი)" },
                     { key: "ბ", text: "1-ლი მიმართველი (დირექტორი)" },
@@ -1191,7 +1373,7 @@
             {
                 id: 101,
                 text: "სურათზე ნაჩვენებია მრავალელემენტიანი (იაგის) ანტენა. ელემენტი 4 - ეს არის:",
-                image: "https://i.imgur.com/gK9q9Rz.png",
+                image: "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjQwIDI2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iNjQwIiBoZWlnaHQ9IjI2MCIgZmlsbD0iIzBmMTcyYSIvPgogIDwhLS0gYm9vbSAtLT4KICA8bGluZSB4MT0iNjAiIHkxPSIxNTAiIHgyPSI1ODAiIHkyPSIxNTAiIHN0cm9rZT0iIzk0YTNiOCIgc3Ryb2tlLXdpZHRoPSI2IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8IS0tIHN1cHBvcnQgbW91bnQgLS0+CiAgPHJlY3QgeD0iMjkwIiB5PSIxNTAiIHdpZHRoPSIyMCIgaGVpZ2h0PSI3MCIgZmlsbD0iIzY0NzQ4YiIvPgoKICA8IS0tIEVsZW1lbnQgMTogUmVmbGVjdG9yIChsb25nZXN0LCBsZWZ0bW9zdCkgLS0+CiAgPGxpbmUgeDE9IjEyMCIgeTE9IjYwIiB4Mj0iMTIwIiB5Mj0iMjQwIiBzdHJva2U9IiMzNGQzOTkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGNpcmNsZSBjeD0iMTIwIiBjeT0iMTUwIiByPSI2IiBmaWxsPSIjMGYxNzJhIiBzdHJva2U9IiMzNGQzOTkiIHN0cm9rZS13aWR0aD0iMyIvPgogIDx0ZXh0IHg9IjEyMCIgeT0iNDUiIGZpbGw9IiNlMmU4ZjAiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSJib2xkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiPjE8L3RleHQ+CgogIDwhLS0gRWxlbWVudCAyOiBEcml2ZW4gZWxlbWVudCAvIFZpYnJhdG9yIC0tPgogIDxsaW5lIHgxPSIyNTAiIHkxPSI3NSIgeDI9IjI1MCIgeTI9IjIyNSIgc3Ryb2tlPSIjZmJiZjI0IiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxjaXJjbGUgY3g9IjI1MCIgY3k9IjE1MCIgcj0iMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZiYmYyNCIgc3Ryb2tlLXdpZHRoPSIzIi8+CiAgPHRleHQgeD0iMjUwIiB5PSI2MCIgZmlsbD0iI2UyZThmMCIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiI+MjwvdGV4dD4KCiAgPCEtLSBmZWVkbGluZSBmcm9tIGRyaXZlbiBlbGVtZW50IC0tPgogIDxsaW5lIHgxPSIyNTAiIHkxPSIyMjUiIHgyPSIzODAiIHkyPSIyMjUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtZGFzaGFycmF5PSI2LDUiLz4KICA8Y2lyY2xlIGN4PSIzODAiIGN5PSIyMjUiIHI9IjgiIGZpbGw9IiM2NDc0OGIiLz4KICA8dGV4dCB4PSI0MDAiIHk9IjIzMCIgZmlsbD0iIzk0YTNiOCIgZm9udC1zaXplPSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIj7hg5nhg5Dhg5Hhg5Thg5rhg5g8L3RleHQ+CgogIDwhLS0gRWxlbWVudCAzOiAxc3QgRGlyZWN0b3IgLS0+CiAgPGxpbmUgeDE9IjM4MCIgeTE9Ijk1IiB4Mj0iMzgwIiB5Mj0iMjA1IiBzdHJva2U9IiM2MGE1ZmEiIHN0cm9rZS13aWR0aD0iNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMzgwIiB5PSI4MCIgZmlsbD0iI2UyZThmMCIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiI+MzwvdGV4dD4KCiAgPCEtLSBFbGVtZW50IDQ6IDJuZCBEaXJlY3RvciAoc2hvcnRlc3QsIHJpZ2h0bW9zdCkgLS0+CiAgPGxpbmUgeDE9IjUwMCIgeTE9IjEwNSIgeDI9IjUwMCIgeTI9IjE5NSIgc3Ryb2tlPSIjNjBhNWZhIiBzdHJva2Utd2lkdGg9IjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDx0ZXh0IHg9IjUwMCIgeT0iOTAiIGZpbGw9IiNlMmU4ZjAiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSJib2xkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiPjQ8L3RleHQ+CgogIDwhLS0gZGlyZWN0aW9uIGFycm93IC0tPgogIDxsaW5lIHgxPSI1NDAiIHkxPSIxNTAiIHgyPSI2MDAiIHkyPSIxNTAiIHN0cm9rZT0iI2Y4NzE3MSIgc3Ryb2tlLXdpZHRoPSIzIiBtYXJrZXItZW5kPSJ1cmwoI2Fycm93KSIvPgogIDxkZWZzPgogICAgPG1hcmtlciBpZD0iYXJyb3ciIG1hcmtlcldpZHRoPSIxMCIgbWFya2VySGVpZ2h0PSIxMCIgcmVmWD0iNiIgcmVmWT0iMyIgb3JpZW50PSJhdXRvIiBtYXJrZXJVbml0cz0ic3Ryb2tlV2lkdGgiPgogICAgICA8cGF0aCBkPSJNMCwwIEw2LDMgTDAsNiBaIiBmaWxsPSIjZjg3MTcxIi8+CiAgICA8L21hcmtlcj4KICA8L2RlZnM+CiAgPHRleHQgeD0iNjA1IiB5PSIxNDUiIGZpbGw9IiNmODcxNzEiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiI+4YOS4YOQ4YOb4YOd4YOh4YOu4YOY4YOV4YOU4YOR4YOQPC90ZXh0Pgo8L3N2Zz4K",
                 answers: [
                     { key: "ა", text: "1-ლი მიმართველი (დირექტორი)" },
                     { key: "ბ", text: "მე-2 მიმართველი (დირექტორი)" },
@@ -1465,6 +1647,68 @@
 
         // საწყისი ჩატვირთვა
         renderAllQuestions();
+
+        // ===== ავტორიზაცია =====
+        const loginOverlay = document.getElementById('login-overlay');
+        const appContent = document.getElementById('app-content');
+        const loginForm = document.getElementById('login-form');
+        const loginError = document.getElementById('login-error');
+        const firstNameInput = document.getElementById('login-firstname');
+        const lastNameInput = document.getElementById('login-lastname');
+        const userGreeting = document.getElementById('user-greeting');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        function showApp(user) {
+            userGreeting.textContent = `${user.first} ${user.last}`;
+            loginOverlay.classList.add('app-hidden');
+            appContent.classList.remove('app-hidden');
+        }
+
+        function showLogin() {
+            appContent.classList.add('app-hidden');
+            loginOverlay.classList.remove('app-hidden');
+            firstNameInput.value = '';
+            lastNameInput.value = '';
+            firstNameInput.focus();
+        }
+
+        // ავტომატური შესვლა, თუ მომხმარებელი უკვე შესულია
+        try {
+            const saved = localStorage.getItem('examUser');
+            if (saved) {
+                const user = JSON.parse(saved);
+                if (user && user.first && user.last) {
+                    showApp(user);
+                }
+            }
+        } catch (e) {
+            console.warn('localStorage არ არის ხელმისაწვდომი', e);
+        }
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const first = firstNameInput.value.trim();
+            const last = lastNameInput.value.trim();
+            if (!first || !last) {
+                loginError.classList.remove('hidden');
+                return;
+            }
+            loginError.classList.add('hidden');
+            const user = { first, last };
+            try {
+                localStorage.setItem('examUser', JSON.stringify(user));
+            } catch (e) {
+                console.warn('localStorage-ში შენახვა ვერ მოხერხდა', e);
+            }
+            showApp(user);
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            try {
+                localStorage.removeItem('examUser');
+            } catch (e) {}
+            showLogin();
+        });
     </script>
 </body>
 </html>
